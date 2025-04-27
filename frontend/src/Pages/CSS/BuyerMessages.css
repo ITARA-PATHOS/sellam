@@ -1,0 +1,79 @@
+.search-bar5 {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-right: 20px;
+  }
+
+  
+  
+  .search-icon5 {
+    margin-right: 5px;
+    color: #000;
+    font-size: 20px;
+  }
+  
+  .search-bar5 input {
+    border: none;
+    outline: none;
+    flex: 1;
+  }
+  
+  .chat-list {
+    max-height: calc(100vh - 200px); /* Adjust this based on your bottom navigation height */
+    overflow-y: auto;
+  }
+  
+  .chat-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .chat-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .chat-info {
+    flex: 1;
+  }
+  
+  .chat-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #000;
+  }
+  
+  .chat-last-message {
+    color: #666;
+  }
+  
+  .chat-meta {
+    display: flex;
+    align-items: center;
+  }
+  
+  .chat-date {
+    margin-right: 10px;
+    color: #999;
+  }
+  
+  .unread-count {
+    background-color: #280769;
+    color: #fff;
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 12px;
+  }
+  
+  .tick-mark {
+    color: #4CAF50;
+    margin-left: 5px;
+  }

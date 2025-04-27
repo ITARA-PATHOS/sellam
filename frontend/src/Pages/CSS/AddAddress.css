@@ -1,0 +1,12 @@
+.popup-done-button1{
+    background-color: #280769;
+    color: #fff;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 30px;
+}

@@ -1,0 +1,179 @@
+.listing-form {
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+  flex-direction: column;
+  padding: 20px;
+  }
+  
+  
+  
+  .listing-form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #000;
+  }
+
+  label .sow{
+    color: #000;
+  }
+  
+  .listing-form input[type="text"],
+  .listing-form select,
+  .listing-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .listing-form textarea {
+    resize: none;
+    height: 100px;
+  }
+  
+  .price-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+
+  }
+  
+  .price-input .currency {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: -20px;
+    z-index: 1001;
+  }
+  
+  .location-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .location-input .icon {
+    color: #6a1b9a;
+    font-size: 18px;
+  }
+  
+  .image-upload {
+    text-align: center;
+    margin-bottom: 15px;
+    align-items: center;
+    border: 2px dashed #555;
+    justify-items: center;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    height: 150px;
+    cursor: pointer;
+  }
+
+  .image-upload:hover {
+    transform: translate(2px, -4px);
+  }
+  
+  .image-upload p {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+  }
+  
+  .upload-btn {
+    font-size: 24px;
+    color: #fff;
+    background-color: #280769;
+    border: none;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  /* Ensures consistent styling */
+.conditions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Checkbox Label */
+  .checkbox-label2 {
+    display: flex;
+    flex-direction: row;
+  align-items: center;
+  justify-content: space-between; /* Push label to the left and checkbox to the right */
+  width: 100%; /* Ensures full-width alignment */
+  font-size: 14px;
+  margin-bottom: 15px; /* Spacing between rows */
+  cursor: pointer;
+  }
+  
+  /* H4 styling */
+.checkbox-label2 h4 {
+    font-size: 16px;
+    margin: 0; /* Remove default margin for proper alignment */
+  flex-grow: 1; /* Ensures the label takes available space */
+  text-align: left; /* Align text to the left */
+  }
+  /* Checkbox container */
+.checkbox-container {
+    display: flex;
+    justify-content: flex-end; /* Push checkbox to the right */
+    align-items: center;
+    flex-shrink: 0; /* Prevent shrinking */
+
+  }
+  
+  /* Custom Checkbox */
+  .custom-checkbox2 {
+    width: 30px; /* Adjust width for better visibility */
+    height: 30px; /* Adjust height for better visibility */
+    border: 2px solid #280769;
+    border-radius: 4px; /* Optional: rounded edges for better visuals */
+    background-color: transparent;
+    cursor: pointer;
+    display: inline-block; /* Ensures proper display */
+    position: relative; /* For tick positioning */  }
+  
+  /* Tick Mark for Checked State */
+  .payin2:checked + .custom-checkbox2::after {
+    content: '✔';
+    font-size: 20px;
+    color: white;
+    position: absolute;
+    top: 2px;
+    left: 6px;
+  }
+  
+  .payin2:checked + .custom-checkbox2 {
+    background-color: #280769; /* Fill color when checked */
+  }
+  
+  
+  .submit-btn3 {
+    width: 100%;
+    padding: 10px;
+    background-color: #280769;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  
+  

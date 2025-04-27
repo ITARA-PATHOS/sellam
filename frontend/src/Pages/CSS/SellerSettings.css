@@ -1,0 +1,31 @@
+.welcome-message1{
+  text-align: left;
+  font-size: 1.5rem;
+  color: #280769;
+  margin-bottom: 20px;
+}
+.par1 {
+    width: 100%;
+        text-align: left;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        color: #6d6767e0; 
+        font-weight: 500;
+        font-size: 15px;
+        margin-top: -20px;
+}
+
+.order-status-card4{
+    background-color: #fff;
+    color: black;
+    text-align: center;
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 800px;
+    align-self: center;
+    margin-bottom: 10px;
+    justify-content: center;
+    padding-right: 30px;
+    padding-top: 30px;
+    cursor: pointer;
+}

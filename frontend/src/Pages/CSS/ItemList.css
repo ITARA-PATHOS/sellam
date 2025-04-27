@@ -1,0 +1,48 @@
+.item-container {
+    position: relative; /* Make this container relative for absolute positioning */
+    display: inline-block;
+  }
+
+  /* Popup Modal */
+  .popup-overlay1 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1001;
+    
+    
+  }
+  
+  .popup-box1 {
+    background: #fff;
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  .ih {
+    position: absolute; /* Position it relative to the .item-container */
+    top: 10px; /* Adjust the distance from the top */
+    left: 10px; /* Adjust the distance from the left */
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 5px 10px; /* Smaller padding for overlap effect */
+    z-index: 1001;
+  }
+  
+  .item-image1 {
+    height: 180px;
+    width: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  

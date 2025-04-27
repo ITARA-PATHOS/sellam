@@ -1,0 +1,103 @@
+/* Payment Overlay */
+.payment-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1000;
+  }
+  
+  .payment-container {
+    background: #fff;
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  
+  
+  /* For larger screens: center the container */
+  @media (min-width: 768px) {
+    .payment-container {
+      width: 400px;
+      margin: 0 auto;
+      border-radius: 20px;
+      position: absolute;
+      bottom: 20px;
+    }
+  }
+  
+  /* Payment Title */
+  .payment-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Payment Options */
+  .payment-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .payment-option .payment-text {
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    flex: 1;
+  }
+  
+
+  .payment-option input[type="radio"] {
+    margin-left: 15px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none;
+    border: 2px solid #280769; /* Border color */
+    border-radius: 50%; /* Make it circular */
+    outline: none;
+    background-color: white; /* Background when not selected */
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .payment-option input[type="radio"]:checked {
+    background-color: #280769; /* Background when selected */
+    border-color: #280769; /* Border when selected */
+  }
+  
+  .payment-option input[type="radio"]:hover {
+    background-color: #e2d4f5; /* Light purple on hover */
+    border-color: #280769;
+  }
+  
+  
+  /* Proceed Button */
+  .proceed-button {
+    width: 100%;
+    padding: 20px;
+    background: #280769;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .proceed-button:hover {
+    background: #3a0b9c;
+  }
+  

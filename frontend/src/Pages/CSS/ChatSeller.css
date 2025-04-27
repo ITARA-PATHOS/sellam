@@ -1,0 +1,170 @@
+
+  .chat-aps {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 650px;
+    margin: 0 auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Header Section */
+  
+  .header-icons5 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .header-icon5 {
+    font-size: 25px;
+    color: black;
+    cursor: pointer;
+  }
+  
+  /* Chat Messages */
+  .chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    display: flex;
+    margin: 10px 0;
+    position: relative;
+  }
+  
+  .message.received {
+    justify-content: flex-start;
+  }
+  
+  .message.sent {
+    justify-content: flex-end;
+  }
+  
+  .message-content {
+    display: inline-block;
+    max-width: 70%;
+    word-wrap: break-word;
+    background-color: #e5e5ea;
+    padding: 10px 15px;
+    border-radius: 15px;
+    position: relative;
+  }
+  
+  .message.sent .message-content {
+    background-color: #280769;
+    color: white;
+  }
+  
+  /* Add the chat bubble tail using ::before */
+.message.received .message-content::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #e5e5ea transparent transparent;
+  }
+  
+  .message.sent .message-content::before {
+    content: "";
+    position: absolute;
+    top: 40px;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #280769;
+  }
+  
+  .message-image {
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+  
+  .seller-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Input Section */
+  .input-container5 {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background-color: white;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .chat-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin: 0 10px;
+    margin-left: 5px;
+  }
+  
+  .input-icon5 {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .emoji-icon.dark {
+    color: #555;
+  }
+  
+  .send-icon {
+    color: #280769;
+    margin-right: 5px;
+  }
+  
+  .voice-icon {
+    color: #280769;
+    margin-right: 20px;
+  }
+  
+  /* Keyboard */
+  .keyboard-container {
+    position: fixed;
+    bottom: 60px;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+  }
+  
+  .keyboard {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  
+  .key-btn {
+    padding: 10px;
+    background-color: #280769;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background-color: red;
+  }
+  
+  .switch-btn {
+    background-color: yellow;
+  }
+  

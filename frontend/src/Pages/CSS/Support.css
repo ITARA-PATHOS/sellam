@@ -1,0 +1,16 @@
+.support-stat{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+.ss{
+    cursor: pointer;
+    
+}
+
+.ss:hover {
+    transform: translate(2px, 4px);
+}

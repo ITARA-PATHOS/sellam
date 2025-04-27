@@ -1,0 +1,102 @@
+.vc{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+  }
+  
+  .login-container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+    }
+
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+      
+
+    .back-arrow {
+        color: rgba(0, 0, 0, 0.767);
+        font-size: 24px; /* Adjust font size as needed */
+        cursor: pointer;
+      }
+
+      .code-input-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        margin-top: 40px;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .code-input-container input {
+        width: 50px;
+        height: 40px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+      
+      .didnt-receive {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #6d6767e0; 
+      }
+
+      .par{
+        width: 100%;
+        text-align: center;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        color: #6d6767e0; 
+        font-weight: 500;
+        font-size: 15px;
+        margin-top: -20px;
+      }
+      
+      .verify-button {
+        background-color: #280769;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 30px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+      }
+
+      .verify-button:hover {
+        background-color: #3b00b3;
+      }
+      
+      .resend-code {
+        text-decoration: underline;
+        color: #280769;
+        text-align: center;
+      }
+      
+     
+
+    @media (max-width: 750px) {
+        .vc{
+            margin-top: -20px;
+        }
+        
+        .par{
+            text-align: left;
+        }
+        .verify-button{
+          font-size: 0.9rem;
+          height: 55px;
+        }
+    }

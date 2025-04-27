@@ -1,0 +1,72 @@
+.cards-container9 {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    flex-direction: column;
+  }
+  
+  .card9 {
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    flex: 1;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-text9 {
+    text-align: left;
+    justify-content: left;
+    justify-items: left;
+  }
+  
+  
+  .card-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .green {
+    color: green;
+  }
+  
+  .red {
+    color: red;
+  }
+  
+  .arrow {
+    width: 8px;
+    height: 8px;
+    border: solid 4px;
+    transform: rotate(45deg);
+    margin-left: 5px;
+  }
+  
+  .arrow.up {
+    border-color: green transparent transparent green;
+  }
+  
+  .arrow.down {
+    border-color: transparent red red transparent;
+  }
+  
+  .sales-trend-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .dropdown9 {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .chart-container {
+    padding: 10px;
+    margin-bottom: 100px;
+  }
+  

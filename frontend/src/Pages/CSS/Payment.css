@@ -1,0 +1,147 @@
+/* Instruction Text */
+.instruction-text {
+    text-align: center;
+    font-size: 16px;
+    color: #7a7a7a;
+    margin-bottom: 20px;
+  }
+
+  .cart-container2{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  /* Card Icon */
+  .card-icon-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .card-icon {
+    font-size: 80px;
+    color: #280769;
+  }
+  
+  .card-icon-text {
+    font-size: 16px;
+    color: #7a7a7a;
+  }
+  
+  /* Input Fields */
+  .payment-form {
+    margin-bottom: 20px;
+  }
+  
+  .input-group1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+
+  }
+  
+  .input-row1 {
+    display: flex;
+    gap: 10px;
+  }
+
+  
+  .half-width {
+    width: 50%;
+  }
+  
+  .payin {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    margin-left: 30px; /* Creates space between icon and text */
+    color: #7a7a7a;
+  }
+
+  
+  /* Icon inside Input */
+.input-icon1 {
+    position: absolute;
+    left: 10px;
+    color: #280769;
+    font-size: 16px;
+  }
+  
+  
+  
+ /* Checkbox Container */
+.checkbox-container1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+  }
+  
+  /* Checkbox Label */
+  .checkbox-label1 {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #280769;
+    cursor: pointer;
+    position: relative;
+    gap: 10px;
+  }
+  
+  /* Hide the default checkbox */
+  .payin1 {
+    display: none;
+  }
+  
+  /* Custom Checkbox */
+  .custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #280769;
+    border-radius: 0; /* Square shape */
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  /* Tick Mark for Checked State */
+  .payin1:checked + .custom-checkbox::after {
+    content: '✔';
+    font-size: 14px;
+    color: white;
+    position: absolute;
+    top: 2px;
+    left: 4px;
+  }
+  
+  .payin1:checked + .custom-checkbox {
+    background-color: #280769; /* Fill color when checked */
+  }
+  
+  
+  /* Make Payment Button */
+  .make-payment-button {
+    width: 100%;
+    background-color: #280769;
+    color: white;
+    display: block;
+    font-size: 20px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 500px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .make-payment-button:hover {
+    background-color: #3a0b9c;
+  }

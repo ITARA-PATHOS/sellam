@@ -1,0 +1,258 @@
+.status-indicator11{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background: #280769;
+    border: 1px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.summary-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px; /* Space between cards */
+    margin: 16px 0;
+    flex-wrap: wrap; /* Ensure responsiveness */
+    padding: 20px;
+  }
+  
+  .card {
+    flex: 1; /* Adjust width to fit dynamically */
+    max-width: 48%; /* Two cards per row on mobile */
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align all elements inside */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 12px; /* Space below the icon */
+  }
+  
+  .listings-icon {
+    background-color: #fff; /* Dark blue background for Listings */
+    color: #fff; /* White icon color */
+  }
+  
+  .sales-icon {
+    background-color: #fff; /* Orange background for Sales */
+    color: #fff; /* White icon color */
+  }
+  
+  .card h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 8px 0;
+    color: #333;
+  }
+  
+  .card p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    color: #000;
+  }
+
+  /* Listed Items Section */
+  .listed-items-section {
+    margin: 16px;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .section-header h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .view-all-link {
+    text-decoration: none;
+    font-size: 14px;
+    color: #3f51b5;
+  }
+  
+  .item-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+    padding: 20px;
+  }
+  
+  .item-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    height: auto;
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 250px;
+    cursor: pointer;
+  }
+  
+  .item-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .item-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  
+  .item-info .status {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  
+  .active {
+    color: #4caf50;
+  }
+  
+  .sold {
+    color: #f44336;
+  }
+  
+  .more-options {
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+  }
+  
+  /* Bottom Navigation */
+  .bottom-nav2 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    padding: 8px 0;
+    z-index: 1000;
+  }
+  
+  .nav-button2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-icon2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .nav-label2 {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .nav-button2:hover .nav-icon2,
+  .nav-button2:hover .nav-label2 {
+    color: #280769; /* Hover effect */
+  }
+
+  .list-items-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    flex-wrap: wrap;    
+  }
+  
+  .list-items-left h4 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .list-items-right .view-all {
+    font-size: 18px;
+    color: #280769;
+    cursor: pointer;
+    margin-right: 50px;
+  }
+  
+  .view-all:hover {
+    text-decoration: none;
+  }
+  
+  
+  /* Plus Icon */
+.plus-icon-wrapper {
+    position: fixed;
+    cursor: pointer;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #280769;
+    color: #fff;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .horizontal-lines {
+    position: absolute;
+    bottom: 68px;
+    width: 80%;
+    height: 1px;
+    background: #ddd;
+    left: 10%;
+  }
+  
+  .plus-icon {
+    font-size: 32px;
+  }
+
+  /* Active Navigation Button */
+  .nav-button2.active .nav-icon2,
+  .nav-button2.active .nav-label2 {
+    color: #280769;
+  }
