@@ -1,0 +1,94 @@
+.cart-container6 {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background-color: #fff;
+  align-items: center;
+}
+
+/* Address Card Styling */
+.address-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px 20px;
+  width: 100%;
+  max-width: 800px;
+  margin: 16px auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.address-details {
+  flex: 1;
+}
+
+.address-label {
+  background-color: #280769;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: inline-block;
+  font-size: 1rem;
+}
+
+.address-line {
+  background-color: #f7f7f7;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.default-tag {
+  font-size: 0.85rem;
+  color: green;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Edit/Delete Buttons */
+.address-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.address-actions .icon-btn {
+  color: #280769;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.address-actions .icon-btn1 {
+  color: red;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+@media (max-width: 768px) {
+  .address-card {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .address-actions {
+    margin-top: 12px;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+  }
+}
+

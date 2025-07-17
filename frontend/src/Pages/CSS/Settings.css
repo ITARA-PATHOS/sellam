@@ -33,5 +33,16 @@
     color: black;
   }
 
+  .delete-account-card {
+  background: #ffeded;
+  border: 1px solid #ff4d4f;
+  transition: background 0.2s ease;
+}
+
+.delete-account-card:hover {
+  background: #ffe1e1;
+}
+
+
 
   

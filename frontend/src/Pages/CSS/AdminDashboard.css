@@ -1,0 +1,344 @@
+
+
+/* CONTAINER */
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  background-color: #280769;
+  color: white;
+  padding: 20px 12px;
+  height: 90vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  overflow-y: auto;
+  margin-bottom: 100px
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+
+.sidebar-logo {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.sidebar-section {
+  font-size: 11px;
+  color: #ccc;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.2s;
+  margin-bottom: 4px;
+}
+
+.menu-item svg {
+  margin-right: 8px;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: #6e48a9;
+}
+
+/* MAIN AREA */
+.main-area {
+  flex: 1;
+  margin-left: 250px;
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+  background: #e1f1fc;
+}
+
+/* TOGGLE BUTTON FOR MOBILE */
+.toggle-sidebar-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: #280769;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .toggle-sidebar-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-area {
+    margin-left: 0;
+    padding: 70px 15px 20px;
+  }
+}
+
+/* TOPBAR */
+.topbar-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.topbar-icon-left {
+  font-size: 20px;
+  color: #555;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-wrapper {
+  position: relative;
+}
+
+.topbar-icon {
+  font-size: 18px;
+  color: #555;
+  cursor: pointer;
+}
+
+.notif-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(40%, -40%);
+  width: 8px;
+  height: 8px;
+  background-color: hotpink;
+  border-radius: 50%;
+}
+
+.topbar-profile {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.super-admin {
+  position: relative;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.super-admin:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background: #f0f0f0;
+}
+
+/* BREADCRUMB AREA */
+.breadcrumb-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0 10px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #444;
+}
+
+/* TABLE CONTROLS */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.entries {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.search-box input {
+  padding: 6px 12px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  width: 200px;
+}
+
+/* GIFT CARD SECTION */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.add-btn {
+  background-color: #280769;
+  color: white;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #6141a2;
+}
+
+/* TABLE */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background-color: #f0f0f0;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.table-img {
+  width: 40px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.status-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: white;
+  display: inline-block;
+}
+
+.status-badge.active {
+  background-color: #28a745;
+}
+
+.status-badge.disabled {
+  background-color: #dc3545;
+}
+
+.action-icon {
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+}
+
+.pagination {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #555;
+}
+
+/* PLACEHOLDER */
+.placeholder-message {
+  background: white;
+  border-radius: 6px;
+  padding: 30px;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* SCROLLBAR FOR SIDEBAR */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
