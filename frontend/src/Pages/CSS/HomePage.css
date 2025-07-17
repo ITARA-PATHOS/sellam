@@ -30,27 +30,28 @@
     cursor: pointer;
   }
   
-  /* Profile Picture */
   .profile-pic {
-    width: 100%; /* Matches the container size */
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ccc; /* Optional for a neat border */
-  }
-  
-  /* Status Indicator */
+  width: 100%; 
+  max-width: 80px;   /* reduced width */
+  max-height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-block;
+}
+
 .status-indicator1 {
-    position: absolute;
-    top: 45px; /* Positions the indicator slightly inside the bottom edge */
-    right: -4px; /* Positions the indicator slightly inside the right edge */
-    width: 10px; /* Slightly larger indicator */
-    height: 10px; /* Matches width for a perfect circle */
-    background: green; /* Green for active status */
-    border: 2px solid white; /* Creates a border separating it from the profile picture */
-    border-radius: 50%; /* Makes the indicator circular */
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for a modern look */
-  }
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #4caf50; /* green */
+  border: 2px solid white;  /* white border for contrast */
+  bottom: 8px;
+  right: 9px;
+  transform: translate(25%, 25%); /* slight overlap on bottom right */
+  pointer-events: none;
+}
+
 
 
   /* Icon Wrapper */
@@ -94,12 +95,7 @@
     gap: 16px;
   }
 
-  .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
+ 
   .icon-button {
     background: none;
     border: none;
@@ -129,6 +125,7 @@
 .featured-items {
   margin: 24px 0;
   text-align: center;
+  margin-top: -100px;
 }
 
 .featured-title {
@@ -297,7 +294,7 @@
   scroll-snap-align: center;
   border-radius: 8px;
   overflow: hidden;
-  height: 300px;
+  min-height: 300px;
   width: 300px; /* Fixed width for each image container */
   box-sizing: border-box; /* Ensures that padding and border are included in the width */
   background-color: #f7fafd;
@@ -322,20 +319,22 @@
 .button-area {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 8px 12px;
-  background-color: #f7fafd; /* Light background for the button area */
-  border-radius: 0 0 8px 8px; /* Rounded bottom corners for the button area */
-  margin-top: 8px; /* Gap between the image and button area */
-  width: 100%; /* Ensures the button area fills the width of the container */
-  box-sizing: border-box; /* Ensures that padding and borders don't break layout */
+  background-color: #f7fafd;
+  border-radius: 0 0 8px 8px;
+  margin-top: 100px;
+  width: 100%;
+  box-sizing: border-box;
   height: 150px;
+  gap: 10px;
 }
 
 .left-buttons {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex: 1; /* Take remaining space */
   margin-top: -80px;
 }
 
@@ -354,6 +353,8 @@
   border-radius: 4px;
   cursor: pointer;
   color: #fff;
+  height: 40px;
+  width: 120px;
 }
 
 .add-to-cart {
@@ -373,7 +374,7 @@
   width: 100px;
   height: 40px;
   font-size: 14px;
-  margin-bottom: 90px;
+  margin-top: -40px;
 }
 
 .add-to-cart:hover{
@@ -433,9 +434,9 @@
 
   .button-area {
     flex-direction: column;
-    align-items: flex-start;
+    height: auto;
+    margin-top: 20px;
     gap: 8px;
-    width: 100%;
   }
 
   .head2{
@@ -630,11 +631,35 @@
   padding: 20px;
   width: 100%;
   max-width: 500px;
-  margin: 0 auto;
+  margin: 0 auto 50px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   height: 40vh;
+  position: relative; 
 }
+
+/* Scroll container */
+.recently-viewed-list {
+  overflow-x: auto;
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.ppr3 {
+  font-size: 13px;
+  font-weight: bold;
+  color: #444;
+  margin-top: 5px;
+}
+
+
+
+
 
 /* Header styling */
 .header1 {
@@ -817,7 +842,7 @@ h2 {
 .product-card {
   flex: 0 0 auto;
   width: 280px; /* Width is larger than height */
-  height: 400px;
+  min-height: 500px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -871,3 +896,317 @@ h2 {
   color: #fff;
 }
 
+
+/* Add this if not already present */
+.ppr4 {
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Arrows for scrolling */
+.slide-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background-color: #280769;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(40, 7, 105, 0.6);
+  transition: background-color 0.3s ease;
+  z-index: 10;
+  user-select: none;
+}
+
+.slide-arrow:hover {
+  background-color: #3c0990;
+}
+
+/* Position left and right arrows */
+.slide-arrow.left {
+  left: -16px;
+}
+
+.right-button {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-shrink: 0; /* Prevent shrinking */
+  margin-top: 10px;
+}
+
+.slide-arrow.right {
+  right: -16px;
+}
+
+/* Adjust arrows on small screens */
+@media (max-width: 600px) {
+  .slide-arrow.left {
+    left: 0;
+  }
+
+  .slide-arrow.right {
+    right: 0;
+  }
+  
+  .recently-viewed {
+    height: auto;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .offer-container {
+    width: 90%;
+    margin: 0 auto 20px auto;
+  }
+}
+
+/* Ensure responsive text sizes */
+@media (max-width: 600px) {
+  .ppr4,
+  .offer-name {
+    font-size: 12px;
+  }
+
+  .add-to-cart,
+  .view-details {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .offer-container {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    min-height: 80vh;
+  }
+
+  .button-area {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 70px;
+  }
+
+   .left-buttons {
+    margin-top: 0;
+  }
+  .right-button {
+    margin-top: 0;
+    justify-content: flex-start;
+  }
+
+  /* Load More Button */
+.load-more-btn {
+  display: block;               /* block for centering */
+  margin: 16px auto;            /* vertical spacing + horizontal centering */
+  padding: 10px 20px;
+  background-color: #280769;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: fit-content;           /* shrink to button content */
+}
+
+/* Hover effect only when enabled */
+.load-more-btn:not(:disabled):hover {
+  background-color: #3c0990;
+}
+
+/* Disabled button style */
+.load-more-btn:disabled {
+  background-color: #999999;
+  cursor: not-allowed;
+  box-shadow: none;
+  color: #dddddd;
+}
+
+/* Center Load More in Slider Section */
+.slider2 + .load-more-btn {
+  display: block;
+  text-align: center;
+}
+
+/* Ensure .slider2 scroll does not hide Load More */
+.featured-offers {
+  position: relative;
+  padding-bottom: 40px;
+}
+
+
+  .add-to-cart,
+  .view-details {
+    width: 100%;
+    height: 36px;
+    margin-top: 0;
+
+  }
+}
+
+
+/* ==========================
+   Dynamically Loaded Categories via API
+   ========================== */
+.categories-api {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.category-api {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f4f4f4;
+  border-radius: 12px;
+  padding: 12px;
+  width: 110px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.category-api:hover {
+  background-color: #e9e9e9;
+}
+
+.category-api.active {
+  background-color: #280769;
+  color: #fff;
+  font-weight: bold;
+  transform: scale(1.05);
+}
+
+.category-api img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  border: 2px solid transparent;
+}
+
+.category-api.active img {
+  border-color: #fff;
+}
+
+.category-api .category-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+}
+
+.category-api.active .category-label {
+  color: #fff;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .categories-api {
+    justify-content: space-evenly;
+    padding: 12px;
+    gap: 0.8rem;
+  }
+
+  .category-api {
+    width: 90px;
+    padding: 10px;
+  }
+
+  .category-api img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .category-api .category-label {
+    font-size: 12px;
+  }
+}
+
+.breadcrumbs {
+  margin: 10px auto;
+  padding: 8px 16px;
+  background-color: #280769; /* Light purple tone */
+  border-radius: 8px;
+  max-width: 90%;
+  text-align: center;
+  font-weight: 500;
+  color: white;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+
+/* 🌐 Sublocation container */
+.child-locations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px; /* space between buttons */
+  padding: 12px 16px;
+  background-color: #280769;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 12px auto;
+}
+
+/* 👇 Each sublocation button */
+.child-locations span {
+  background-color: #3a0b88;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.child-locations span:hover {
+  background-color: #4e0cc2;
+}
+
+/* 👤 Extra (if you're using a child class within span) */
+.child-locations, .child-location {
+  color: white;
+}
+
+/* 📱 Responsive tweaks for small devices */
+@media (max-width: 480px) {
+  .child-locations span {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .child-locations {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+}

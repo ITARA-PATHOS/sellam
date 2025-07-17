@@ -1,103 +1,209 @@
-.pc{
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    justify-self: center;
-    justify-items: center;
-    justify-content: center;
-    border-radius: 50%;
+.pc {
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  justify-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Profile Picture Container */
 .profile-pic-container {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Camera Icon */
-  .camera-icon {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: #280769;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-  }
-  
-  .camera-icon:hover {
-    background-color: #280769;
-  }
-  
-  /* Dropdown Options */
-  .dropdown-options1 {
-    position: absolute;
-    margin-top: -15px;
-    width: 100%;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    list-style: none;
-    padding: 0;
-    max-height: 120px; /* Optional: To limit the height for long lists */
-    overflow-y: auto;
-    align-self: center;
-    max-width: 150px; /* Optional: To limit the height for long lists */
+  position: relative;
+  display: inline-block;
+}
 
-  }
-  
-  .dropdown-option1 {
-    padding: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .dropdown-option1:hover {
-    background: #f5f5f5;
-  }
-  
-  /* Input Group Adjustments */
-  .input-group {
-    margin-bottom: 20px;
-    position: relative;
-  }
-  
-  
-  
-  .input-group1 input {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    color: #333;
-    box-sizing: border-box;
-  }
-  
-  
-  
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #280769;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
 
-  
-  /* Nigerian Flag Styling */
-  .phone-input span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-  }
-  
-  .phone-input .ai-fill-flag {
-    font-size: 20px;
-    color: #008753; /* Green color */
-  }
-  
- 
+.camera-icon:hover {
+  background-color: #380797;
+}
+
+.dropdown-options1 {
+  position: absolute;
+  margin-top: -15px;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  max-height: 120px;
+  overflow-y: auto;
+  max-width: 150px;
+}
+
+.dropdown-option1 {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.dropdown-option1:hover {
+  background: #f5f5f5;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+}
+
+.phone-input span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.phone-input .ai-fill-flag {
+  font-size: 20px;
+  color: #008753;
+}
+
+.editprof-info-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  margin: 12px 0;
+  border-radius: 8px;
+  background: linear-gradient(to right, #280769 2%, #ffffff 2%, #ffffff 98%, #280769 98%);
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 15px;
+  position: relative;
+}
+
+.editprof-info-card:hover {
+  box-shadow: 0 4px 10px rgba(40,7,105,0.2);
+}
+
+.editprof-verify-btn-inline {
+  padding: 6px 12px;
+  background-color: #280769;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editprof-verify-btn-inline:hover {
+  background-color: #3c0b9b;
+}
+
+.editprof-input-code-box {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.editprof-submit-verify-btn {
+  padding: 6px 12px;
+  background-color: green;
+  color: white;
+  margin-top: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editprof-submit-verify-btn:hover {
+  background-color: #058f05;
+}
+
+.make-payment-button {
+  width: 100%;
+  background-color: #280769;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.make-payment-button:hover {
+  background-color: #3a0d96;
+}
+
+.cart-container5 {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.header2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-title3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-icon2 {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chat-ap {
+  margin-top: 20px;
+}
+
+.bank-edit-container {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}

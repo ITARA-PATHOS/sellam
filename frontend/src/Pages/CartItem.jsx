@@ -6,11 +6,14 @@ import product_1 from "../Components/Assets/product_1.png";
 import { Link } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
 import {  FaHome, FaShoppingCart, FaClipboardList, FaCog } from 'react-icons/fa';
-
+import { useCart } from '../Contexts/CartContext';
 
 
 
 const CartItem = () => {
+  const { cartItems } = useCart();
+  const item = cartItems[0];
+
   return (
       <div className="cart-container">
           {/* Header */}
@@ -18,11 +21,14 @@ const CartItem = () => {
           <Link to="/cart_items">
             <FaArrowLeft className="back-icon2" />
             </Link>
-            <h2 className="header-title2">My Cart (1)</h2>
+            <h2 className="header-title2">My Cart               
+            ({cartItems.reduce((total, item) => total + (item.quantity || 1), 0)})
+</h2>
             <Link to="/cart_items">
             <div className="cart-icon-container">
               <AiOutlineShoppingCart className="cart-icon" />
-              <span className="cart-count">1</span>
+              <span className="cart-count">            {cartItems.reduce((total, item) => total + (item.quantity || 1), 0)}
+</span>
             </div>
             </Link>
           </div>

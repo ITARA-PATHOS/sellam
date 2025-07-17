@@ -3,11 +3,16 @@ import './CSS/Payment.css';
 import { FaArrowLeft, FaEyeSlash, FaCreditCard } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from 'react-router-dom';
+import { useCart } from '../Contexts/CartContext';
+
 
 
 
 
 const Payment = () => {
+
+  const { cartItems } = useCart();
+  
   return (
     <div className="cart-container2">
               {/* Header */}
@@ -19,7 +24,7 @@ const Payment = () => {
                 <Link to="/cart_items">
                 <div className="cart-icon-container">
                   <AiOutlineShoppingCart className="cart-icon" />
-                  <span className="cart-count">1</span>
+                  <span className="cart-count">{cartItems.reduce((total, item) => total + (item.quantity || 1), 0)}</span>
                 </div>
                 </Link>
               </div>

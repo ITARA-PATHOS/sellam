@@ -1,3 +1,7 @@
+import { CartProvider } from './Contexts/CartContext'; 
+import { ProductProvider } from './Contexts/ListingContext'; 
+
+
 import './App.css';
 import { BrowserRouter,Routes,Route} from 'react-router-dom';
 import Splash from './Pages/Splash';
@@ -46,11 +50,15 @@ import SalesOverview from './Pages/SalesOverview';
 import SellerPasswordChange from './Pages/SellerPasswordChange';
 import EditProfileSeller from './Pages/EditProfileSeller';
 import SellerNotificationPage from './Pages/SellerNotificationPage';
+import AdminDashboard from './Pages/AdminDashboard';
+import SellerOrders from './Pages/SellerOrders';
 
 
 function App() {
   return (
     <div>
+    <CartProvider>
+      <ProductProvider>
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Splash />} />
@@ -61,8 +69,9 @@ function App() {
         <Route path='/password-reset' element={<CreateNewPassword/>}/>
         <Route path='/page-loading' element={<Onboard/>}/>
         <Route path='/modeselect' element={<Mode/>}/>
+        <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
         <Route path='/home' element={<HomePage/>}/>
-        <Route path='/product_details' element={<Details/>}/>
+        <Route path="/product_details/:id" element={<Details />} />
         <Route path='/cart_items' element={<Cart/>}/>
         <Route path='/cart_item' element={<CartItem/>}/>
         <Route path='/empty_cart' element={<CartEmpty/>}/>
@@ -75,7 +84,7 @@ function App() {
         <Route path='/orders_product' element={<MyOrders/>}/> 
         <Route path='/pending_order' element={<OrderPending/>}/> 
         <Route path='/order_delivered' element={<OrderDelivered/>}/> 
-        <Route path='/chat_seller' element={<ChatSeller/>}/>
+        <Route path="/chat_seller/:conversationId" element={<ChatSeller />} />
         <Route path='/tracking_package' element={<TrackPackage/>}/> 
         <Route path='/product_rating' element={<RateProduct/>}/> 
         <Route path='/search_views' element={<SearchPage/>}/> 
@@ -83,7 +92,8 @@ function App() {
         <Route path='/settings' element={<Settings/>}/>
         <Route path='/password_changing' element={<ChangePassword/>}/>
         <Route path='/address_management' element={<ManageAddress/>}/>
-        <Route path='/address_adding' element={<AddAddress/>}/>
+        <Route path="/address_adding" element={<AddAddress />} />
+       <Route path="/address_edit/:id" element={<AddAddress />} />
         <Route path='/account_settings' element={<AccountSettings/>}/>
         <Route path='/edit_profile' element={<EditProfile/>}/> 
         <Route path='/buyer_support' element={<Support/>}/> 
@@ -93,9 +103,11 @@ function App() {
 
 
         <Route path='/seller_dashboard' element={<SellerDashboard/>}/> 
-        <Route path='/chat_buyer' element={<ChatBuyer/>}/> 
+        <Route path="/seller_orders" element={<SellerOrders />} />
+        <Route path='/chat_buyer/:conversationId' element={<ChatBuyer />} />
         <Route path='/seller_profile_settings' element={<SellerSettings/>}/> 
         <Route path='/add_items' element={<ListingForm/>}/> 
+        <Route path='/edit_item/:id' element={<ListingForm />} />
         <Route path='/items_list' element={<ItemList/>}/> 
         <Route path='/manage_items_list' element={<ManageListings/>}/> 
         <Route path='/buyers_chat' element={<BuyerMessages/>}/> 
@@ -105,56 +117,6 @@ function App() {
         <Route path='/seller_notifications' element={<SellerNotificationPage/>}/> 
 
         
-
-        
-
-        
-
-        
-
-        
-
-
-        
-
-        
-
-
-        
-
-
-        
-
-
-
-
-         
-
-
-
-        
- 
-        
-
-        
-
-
-        
-       
-
-        
-
-
-        
-
-        
-
-
-
-
-
-
-
 
 
        {/* <Route
@@ -188,6 +150,8 @@ function App() {
         />*/}
       </Routes>
       </BrowserRouter>
+        </ProductProvider>
+      </CartProvider>
     </div>
   );
 }

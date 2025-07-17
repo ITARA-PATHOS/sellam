@@ -39,6 +39,37 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
   
+  /* Shared status pill styling */
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  user-select: none;
+}
+
+/* Active = green */
+.status.active {
+  background-color: #28a745; /* bootstrap-success green */
+  cursor: pointer;
+  color: white
+}
+
+/* Sold = red */
+.status.sold {
+  background-color: #dc3545; /* bootstrap-danger red */
+  cursor: default;
+  color: white;
+}
+
+/* If you want a hover effect on Active pills only */
+.status.active:hover {
+  background-color: #218838;
+  color: white;
+}
+
   .card-icon-wrapper {
     display: flex;
     justify-content: center;

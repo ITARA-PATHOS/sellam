@@ -80,3 +80,68 @@
     cursor: pointer;
   }
   
+  .result-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  margin: 5px 0;
+  background: #f8f8f8;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.result-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.result-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.no-results {
+  color: #999;
+  margin-top: 10px;
+}
+
+.search-results {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.search-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.search-card-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.search-card-details {
+  flex-grow: 1;
+}
+
+.add-cart-btn {
+  margin-top: 5px;
+  padding: 6px 12px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}

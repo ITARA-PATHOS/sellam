@@ -246,11 +246,13 @@
     }
     
     /* Responsive Design */
-    @media (max-width: 750px) {
+    @media (max-width: 768px) {
       .login {
-        margin-top: 150px;
+        min-height: 120vh;
+        margin-top: 220px;
       }
-    
+
+      
       .welcome-message {
         font-size: 1.2rem;
         text-align: left;

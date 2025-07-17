@@ -39,6 +39,7 @@
     border-radius: 30px;
     cursor: pointer;
     padding: 20px;
+    margin-bottom: 50px;
   }
   
   .continue-button:hover {

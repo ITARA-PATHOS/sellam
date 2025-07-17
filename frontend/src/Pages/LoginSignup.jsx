@@ -1,15 +1,71 @@
-import React from 'react';
-import './CSS/LoginSignup.css'; // Import the CSS file for styling
-import { FaGoogle, FaFacebookF, FaTwitter, FaEyeSlash  } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import './CSS/LoginSignup.css';
+import { FaGoogle, FaFacebookF, FaTwitter, FaEyeSlash } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const LoginSignup = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMessage('');
+  setLoading(true);
+
+  try {
+    const response = await fetch(`${BASE_URL}/v1/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (
+  data.success &&
+  data.data &&
+  data.data.token &&
+  data.data.token.access_token
+) {
+  const accessToken = data.data.token.access_token;
+  const refreshToken = data.data.token.refresh_token;
+  const user = data.data.user; // ✅ this contains the user info including role/type
+
+
+  console.log('✅ Tokens:', accessToken, refreshToken); // ← See what's printed
+  console.log('👤 User:', user); // Log it for verification
+
+  sessionStorage.setItem('access_token', accessToken);
+  sessionStorage.setItem('refresh_token', refreshToken);
+  sessionStorage.setItem('user', JSON.stringify(user)); // ✅ Add this
+
+  setMessage('✅ Login successful! Redirecting...');
+  setTimeout(() => {
+    navigate('/page-loading');
+  }, 1000);
+} else {
+  console.log('❌ Login failed. Full data:', data);
+  setMessage(data?.message || '❌ Invalid email or password.');
+}
+
+  } catch (error) {
+    console.error('❌ Network error:', error);
+    setMessage('❌ Network error. Please try again later.');
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <div className="login">
       <div className="login-container">
         <h2 className="welcome-message">Welcome back Alex 👋</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="email">Email address</label>
             <input
@@ -17,6 +73,8 @@ const LoginSignup = () => {
               id="email"
               placeholder="Enter email address"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input-group">
@@ -27,38 +85,57 @@ const LoginSignup = () => {
                 id="password"
                 placeholder="Enter password"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button type="button" className="show-password">
                 <FaEyeSlash />
               </button>
             </div>
           </div>
+
           <div className="remember-me">
             <div>
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember Me</label>
             </div>
-            <Link style={{ textDecoration: 'underline', color: 'rgb(43, 199, 43)', fontWeight: 'bold' }} to='/forgotpassword'>Forgot Password?</Link>
-    
+            <Link to="/forgotpassword" style={{ textDecoration: 'underline', color: 'rgb(43, 199, 43)', fontWeight: 'bold' }}>
+              Forgot Password?
+            </Link>
           </div>
-          <Link style={{ width:'100%' }} to='/page-loading'><button type="submit" className="login-button">Login</button></Link>
-      
+
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+
+          {message && (
+            <p style={{ marginTop: '15px', fontWeight: 'bold', color: '#280769', textAlign: 'center' }}>
+              {message}
+            </p>
+          )}
+
           <p className="or">Or</p>
+
           <div className="social-login">
-          <button className="social-button google">
-    <FaGoogle className="google-button-icon" />
-    <span className="google-button-text">Continue with Google</span>  </button>
-  <button className="social-button facebook">
-    <FaFacebookF className="social-icon" />
-    <span className="google-button-text">Continue with Facebook</span>
-  </button>
-  <button className="social-button twitter">
-    <FaTwitter className="social-icon" />
-    <span className="google-button-text">Continue with Twitter</span>
-  </button>
+            <button className="social-button google">
+              <FaGoogle className="google-button-icon" />
+              <span className="google-button-text">Continue with Google</span>
+            </button>
+            <button className="social-button facebook">
+              <FaFacebookF className="social-icon" />
+              <span className="google-button-text">Continue with Facebook</span>
+            </button>
+            <button className="social-button twitter">
+              <FaTwitter className="social-icon" />
+              <span className="google-button-text">Continue with Twitter</span>
+            </button>
           </div>
+
           <p className="signup-link">
-            Don't have an account? <Link style={{ textDecoration: 'none', color: '#280769', fontWeight: 'bold' }} to='/signup'>Sign Up</Link>
+            Don't have an account?{' '}
+            <Link to="/signup" style={{ textDecoration: 'none', color: '#280769', fontWeight: 'bold' }}>
+              Sign Up
+            </Link>
           </p>
         </form>
       </div>

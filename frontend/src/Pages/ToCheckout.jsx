@@ -3,9 +3,13 @@ import product_1 from "../Components/Assets/product_1.png";
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useCart } from '../Contexts/CartContext';
+
 
 
 const ToCheckout = () => {
+  const { cartItems } = useCart();
+  
   return (
     <div className="product-container">
       <div className="header1">
@@ -15,7 +19,8 @@ const ToCheckout = () => {
         <Link to="/cart_items">
         <div className="cart-icon-container">
         <AiOutlineShoppingCart className="cart-icon" />
-          <span className="cart-count">1</span>
+          <span className="cart-count">            {cartItems.reduce((total, item) => total + (item.quantity || 1), 0)}
+</span>
         </div>
         </Link>
       </div>
