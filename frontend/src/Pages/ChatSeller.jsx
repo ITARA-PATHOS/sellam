@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaTrash } from "react-icons/fa";
 import { AiOutlinePaperClip, AiOutlineSend, AiOutlineCheck } from "react-icons/ai";
@@ -32,32 +32,33 @@ const ChatSeller = () => {
     setMessage((prev) => prev + char);
   };
 
-  const fetchMessages = async () => {
-    const token = await getAccessToken();
-    if (!token || !conversationId) return;
+ const fetchMessages = useCallback(async () => {
+  const token = await getAccessToken();
+  if (!token || !conversationId) return;
 
-    try {
-      const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}/messages?order=desc`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const data = await res.json();
-      if (data.success && data.data) {
-        const msgs = data.data.map(m => ({
-          text: m.message,
-          type: m.sender?.id === currentUser.id ? "sent" : "received",
-          created_at: m.created_at
-        }));
-        setMessages(msgs.reverse()); // oldest first
+  try {
+    const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}/messages?order=desc`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
       }
-    } catch (err) {
-      console.error("❌ Error fetching messages:", err);
+    });
+
+    const data = await res.json();
+    if (data.success && data.data) {
+      const msgs = data.data.map(m => ({
+        text: m.message,
+        type: m.sender?.id === currentUser.id ? "sent" : "received",
+        created_at: m.created_at
+      }));
+      setMessages(msgs.reverse()); // oldest first
     }
-  };
+  } catch (err) {
+    console.error("❌ Error fetching messages:", err);
+  }
+}, [conversationId, currentUser.id]);
+
 
   const sendMessage = async () => {
     if (message.trim() === "") return;
@@ -88,47 +89,49 @@ const ChatSeller = () => {
     }
   };
 
-  const fetchConversation = async () => {
-    const token = await getAccessToken();
-    if (!token || !conversationId) return;
+  const fetchConversation = useCallback(async () => {
+  const token = await getAccessToken();
+  if (!token || !conversationId) return;
 
-    try {
-      const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const data = await res.json();
-      if (data.success && data.data) {
-        const other = data.data.participants.find(p => p.id !== currentUser.id);
-        setParticipant(other);
+  try {
+    const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
       }
-    } catch (err) {
-      console.error("❌ Failed to load conversation:", err);
-    }
-  };
+    });
 
-  const markConversationAsRead = async () => {
-    const token = await getAccessToken();
-    if (!token || !conversationId) return;
-
-    try {
-      await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ action: 'mark_read' })
-      });
-    } catch (err) {
-      console.error("❌ Failed to mark conversation as read:", err);
+    const data = await res.json();
+    if (data.success && data.data) {
+      const other = data.data.participants.find(p => p.id !== currentUser.id);
+      setParticipant(other);
     }
-  };
+  } catch (err) {
+    console.error("❌ Failed to load conversation:", err);
+  }
+}, [conversationId, currentUser.id]);
+
+
+ const markConversationAsRead = useCallback(async () => {
+  const token = await getAccessToken();
+  if (!token || !conversationId) return;
+
+  try {
+    await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ action: 'mark_read' })
+    });
+  } catch (err) {
+    console.error("❌ Failed to mark conversation as read:", err);
+  }
+}, [conversationId]);
+
 
   const deleteConversation = async () => {
     const token = await getAccessToken();
@@ -168,10 +171,11 @@ const ChatSeller = () => {
   };
 
   useEffect(() => {
-    fetchConversation();
-    fetchMessages();
-    markConversationAsRead();
-  }, []);
+  fetchConversation();
+  fetchMessages();
+  markConversationAsRead();
+}, [fetchConversation, fetchMessages, markConversationAsRead]);
+
 
   return (
     <div className="chat-app">

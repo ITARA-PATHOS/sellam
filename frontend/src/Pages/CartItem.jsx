@@ -12,7 +12,6 @@ import { useCart } from '../Contexts/CartContext';
 
 const CartItem = () => {
   const { cartItems } = useCart();
-  const item = cartItems[0];
 
   return (
       <div className="cart-container">

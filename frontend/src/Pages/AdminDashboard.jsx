@@ -64,8 +64,7 @@ const AdminDashboard = () => {
             <div key={group.section}>
               <p className="sidebar-section">{group.section}</p>
               {group.items.map(item => (
-                <a
-                  href="#"
+                <button
                   key={item.label}
                   className={`menu-item ${selected === item.label ? 'active' : ''}`}
                   onClick={() => {
@@ -74,7 +73,7 @@ const AdminDashboard = () => {
                   }}
                 >
                   {item.icon} {item.label}
-                </a>
+                </button>
               ))}
             </div>
           ))}
@@ -93,7 +92,7 @@ const AdminDashboard = () => {
             <div className="super-admin">
               Super Admin <FaAngleDown />
               <div className="dropdown-menu">
-                <a href="#">Logout</a>
+                <button>Logout</button>
               </div>
             </div>
           </div>

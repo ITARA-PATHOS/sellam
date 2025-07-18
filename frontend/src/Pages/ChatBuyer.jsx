@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft, FaTrashAlt, FaCheckDouble } from "react-icons/fa";
 import { AiOutlinePaperClip, AiOutlineSend } from "react-icons/ai";
@@ -23,66 +23,66 @@ const ChatBuyer = () => {
   const switchKeyboard = (type) => setKeyboardType(type);
   const handleKeyPress = (char) => setMessage(prev => prev + char);
 
-  const fetchConversation = async () => {
-    const token = await getAccessToken();
-    try {
-      const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const data = await res.json();
-      if (data.success && data.data) {
-        const other = data.data.participants.find(p => p.id !== currentUser.id);
-        setParticipant(other);
+  const fetchConversation = useCallback(async () => {
+  const token = await getAccessToken();
+  try {
+    const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
       }
-    } catch (err) {
-      console.error("❌ Failed to fetch conversation details:", err);
+    });
+
+    const data = await res.json();
+    if (data.success && data.data) {
+      const other = data.data.participants.find(p => p.id !== currentUser.id);
+      setParticipant(other);
     }
-  };
+  } catch (err) {
+    console.error("❌ Failed to fetch conversation details:", err);
+  }
+}, [conversationId, currentUser.id]); // add dependencies used inside
 
-  const fetchMessages = async () => {
-    const token = await getAccessToken();
-    try {
-      const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}/messages?order=desc`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const data = await res.json();
-      if (data.success && data.data) {
-        const parsed = data.data.map(m => ({
-          text: m.message,
-          type: m.sender?.id === currentUser.id ? "sent" : "received",
-          created_at: m.created_at
-        }));
-        setMessages(parsed.reverse());
+const fetchMessages = useCallback(async () => {
+  const token = await getAccessToken();
+  try {
+    const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}/messages?order=desc`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
       }
-    } catch (err) {
-      console.error("❌ Failed to fetch messages:", err);
-    }
-  };
+    });
 
-  const markAsRead = async () => {
-    const token = await getAccessToken();
-    try {
-      await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.warn("⚠️ Failed to mark as read");
+    const data = await res.json();
+    if (data.success && data.data) {
+      const parsed = data.data.map(m => ({
+        text: m.message,
+        type: m.sender?.id === currentUser.id ? "sent" : "received",
+        created_at: m.created_at
+      }));
+      setMessages(parsed.reverse());
     }
-  };
+  } catch (err) {
+    console.error("❌ Failed to fetch messages:", err);
+  }
+}, [conversationId, currentUser.id]);
+
+const markAsRead = useCallback(async () => {
+  const token = await getAccessToken();
+  try {
+    await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+  } catch (err) {
+    console.warn("⚠️ Failed to mark as read");
+  }
+}, [conversationId]);
 
   const deleteConversation = async () => {
     const token = await getAccessToken();
@@ -130,11 +130,11 @@ const ChatBuyer = () => {
     }
   };
 
-  useEffect(() => {
-    fetchConversation();
-    fetchMessages();
-    markAsRead();
-  }, []);
+ useEffect(() => {
+  fetchConversation();
+  fetchMessages();
+  markAsRead();
+}, [fetchConversation, fetchMessages, markAsRead]);
 
   const renderKeyboard = () => {
     const layout = keyboardType === "letters"
