@@ -11,7 +11,6 @@ const EscrowInfo = () => {
   const { cartData, cartCount } = useCart();
 
   const items = cartData?.items || [];
-  const total = cartData?.total || 0;
 
   if (items.length === 0) {
     return (

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './CSS/NotificationPage.css';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaEnvelopeOpen, FaTrash } from "react-icons/fa";
 import { getAccessToken } from '../utils/token';
-import { IoArrowBack } from 'react-icons/io5';
 
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -15,9 +14,9 @@ const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
     const [loadingPopup, setLoadingPopup] = useState(false);
-      const [unreadCount, setUnreadCount] = useState(0);
+    const [unreadCount, setUnreadCount] = useState(0);
 const [selectedNotification, setSelectedNotification] = useState(null); // for modal
-
+ void unreadCount
  // ✅ Fetch All Notifications
   const fetchNotifications = async () => {
     const token = await getAccessToken();

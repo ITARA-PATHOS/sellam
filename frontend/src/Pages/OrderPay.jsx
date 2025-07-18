@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './CSS/OrderPay.css';
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ocom1 from '../Components/Assets/ocom1.PNG';
 
 const OrderPay = () => {
   const [orderData, setOrderData] = useState(null);
   const [redirectParams, setRedirectParams] = useState({});
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {

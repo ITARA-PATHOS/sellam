@@ -10,6 +10,7 @@ const SellerMessages = () => {
   const { conversations, loading, error } = useConversations();
   const navigate = useNavigate();
   const { id } = useParams();
+  void id
   const lastProductId = sessionStorage.getItem('lastProductId');
   console.log("🧭 lastProductId from sessionStorage:", lastProductId);
 

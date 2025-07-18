@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './CSS/EditProfile.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaChevronDown, FaCamera, FaEdit } from 'react-icons/fa';
-import { AiFillFlag } from 'react-icons/ai';
 import { getAccessToken } from '../utils/token';
 import pp from '../Components/Assets/pp.jpg';
 
@@ -275,6 +274,7 @@ export default function EditProfile() {
   };
 
   if (!user) return <div>Loading profile...</div>;
+  void imageFile;
 
   return (
     <div className="cart-container5">

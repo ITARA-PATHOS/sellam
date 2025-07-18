@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './CSS/EditProfile.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaChevronDown, FaCamera, FaEdit } from 'react-icons/fa';
-import { AiFillFlag } from 'react-icons/ai';
-import pp from '../Components/Assets/pp.jpg'
+
 import { getAccessToken } from '../utils/token';
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -21,6 +20,7 @@ export default function EditProfileSeller() {
   const [modeLoading, setModeLoading] = useState(false);
 
   const navigate = useNavigate();
+  void imageFile;
 
   const [formData, setFormData] = useState({
     first_name: '',

@@ -43,7 +43,6 @@ function Mode() {
     }
   };
 
-  const isDisabled = loading || selectedMode === null;
 
   return (
     <div className="vc">

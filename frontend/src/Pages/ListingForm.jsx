@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import './CSS/ListingForm.css';
-import { FaPlus, FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import up from '../Components/Assets/up.PNG';
 import { ProductContext } from '../Contexts/ListingContext';

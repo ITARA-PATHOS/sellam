@@ -25,6 +25,9 @@ const SellerDashboard = () => {
 const [hasUnread, setHasUnread] = useState(false);
 const [unreadCount, setUnreadCount] = useState(0);
 
+void notifications
+void hasUnread
+
 useEffect(() => {
   const fetchNotifications = async () => {
     const token = await getAccessToken();

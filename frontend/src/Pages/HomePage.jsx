@@ -15,9 +15,6 @@ import product_12 from "../Components/Assets/product_12.png";
 import product_13 from "../Components/Assets/product_13.png";
 import product_14 from "../Components/Assets/product_14.png";
 import product_15 from "../Components/Assets/product_15.png";
-import product_34 from "../Components/Assets/product_34.png";
-import empty_star from "../Components/Assets/empty_star.png";
-import star from "../Components/Assets/star.jpg";
 import { useCart } from '../Contexts/CartContext';
 import { getAccessToken } from '../utils/token';
 import { getFcmToken } from '../utils/fcm';
@@ -40,6 +37,10 @@ const [selectedLocation, setSelectedLocation] = useState(null);
 const [locationChildren, setLocationChildren] = useState([]);
 const [locationBreadcrumbs, setLocationBreadcrumbs] = useState([]);
 const [locationDetails, setLocationDetails] = useState(null); // ✅ you can set this from fetched location if needed
+
+void selectedLocationId
+void selectedLocation
+void locationDetails
 
 const [showDropdown, setShowDropdown] = useState(false);
 
@@ -64,6 +65,8 @@ const [recentlyViewedAll, setRecentlyViewedAll] = React.useState(false);
 const [loadingRecentlyViewed, setLoadingRecentlyViewed] = React.useState(false);
 const [recentlyViewedHasMore, setRecentlyViewedHasMore] = React.useState(false);
 
+void loadingRecentlyViewed
+void recentlyViewedHasMore
 
 const sliderRef = React.useRef(null);
 
@@ -83,6 +86,9 @@ const featuredItems = [
 const [notifications, setNotifications] = useState([]);
 const [unreadCount, setUnreadCount] = useState(0);
 const [HasUnread, setHasUnread] = useState(0);
+
+void notifications
+void HasUnread
 
 useEffect(() => {
   const fetchNotifications = async () => {

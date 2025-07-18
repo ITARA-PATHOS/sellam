@@ -6,7 +6,6 @@ import { FaClipboardList, FaHome, FaComment, FaArrowLeft, FaBoxOpen } from 'reac
 import { FiPlus } from "react-icons/fi";
 import { MdCheckCircle } from 'react-icons/md';
 import useConversations from '../hooks/useConversations';
-import { getAccessToken } from '../utils/token';
 
 const BuyerMessages = () => {
   const [searchQuery, setSearchQuery] = useState('');
