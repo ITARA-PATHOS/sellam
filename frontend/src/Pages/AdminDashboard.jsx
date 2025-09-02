@@ -8,7 +8,6 @@ import {
   FaCogs,
   FaUser,
   FaBars,
-  FaBell,
   FaAngleDown,
 } from "react-icons/fa";
 import { BiMoneyWithdraw } from "react-icons/bi";
@@ -173,12 +172,9 @@ export default function AdminDashboard() {
       <div className="main-area">
         {/* Topbar */}
         <div className="topbar-fixed">
-          <h1 className="topbar-icon-left">Welcome Dear Admin</h1>
+          <h3 className="topbar-icon-left">Welcome Dear Admin</h3>
           <div className="topbar-right">
-            <div className="notification-wrapper">
-              <FaBell className="topbar-icon" />
-              <span className="notif-dot" />
-            </div>
+            
             <div className="profile-container4">
       <img
         src={profilePic || pp }
@@ -210,6 +206,10 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
+         <div className="topbar-fixed">
+        <div className="notification-wrapper1">
+              <h3>NB: CLick randomly on each item in tables to access details</h3>
+            </div></div>
 
         {/* Breadcrumb */}
         <div className="breadcrumb-area">
