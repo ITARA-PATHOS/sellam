@@ -46,6 +46,13 @@ const useConversations = (page = 1, perPage = 20) => {
     };
 
     fetchConversations();
+
+     const interval = setInterval(() => {
+    fetchConversations(); // Fetch every 2 seconds
+  }, 1000);
+
+  return () => clearInterval(interval); // Cleanupv
+
   }, [page, perPage]);
 
   return { conversations, loading, error };

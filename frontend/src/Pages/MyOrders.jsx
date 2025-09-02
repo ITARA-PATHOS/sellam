@@ -16,7 +16,6 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const MyOrders = () => {
   const navigate = useNavigate();
-
   const [activeTab, setActiveTab] = useState("pending");
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,11 +50,13 @@ const MyOrders = () => {
     };
 
     fetchOrders();
+    const interval = setInterval(fetchOrders, 15000);
+    return () => clearInterval(interval);
   }, []);
 
-  const filteredOrders = orders.filter((order) => {
-    return (order.status || '').toLowerCase() === activeTab.toLowerCase();
-  });
+  const filteredOrders = orders.filter((order) =>
+    order.items?.some(item => (item.buyer_status || '').toLowerCase() === activeTab.toLowerCase())
+  );
 
   return (
     <div className="orders-container">
@@ -134,8 +135,19 @@ const MyOrders = () => {
                   </p>
                 </div>
 
+                {/* Item-level status row */}
                 <div className="row">
-                  <p className={`status ${activeTab}`}>{order.status}</p>
+                  <p className="status-label">
+                    {order.items?.map((item, idx) => (
+                      <span key={idx} className={`status-tag ${item.buyer_status || item.status}`}>
+                        {item.name}: {item.buyer_status || item.status}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+
+                <div className="row">
+                  <p className={`status ${activeTab}`}>{activeTab}</p>
                   <Link to={`/order_delivered?id=${order.id}`} style={{ width: "22%", textDecoration: "none" }}>
                     <button type="submit" className="details-button">
                       Details

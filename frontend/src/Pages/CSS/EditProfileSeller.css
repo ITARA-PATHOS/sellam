@@ -1,0 +1,254 @@
+/* === Common Utilities === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Modal: Withdrawal / Bank Setup === */
+.bank-modal-overlay,
+.modal-overlay,
+.modal-overlay1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.bank-modal-content,
+.modal-content,
+.modal-content1 {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.3s ease;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* === Modal Buttons === */
+.btn.cancel {
+  background-color: #ccc;
+  color: #000;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.delete {
+  background-color: #ff4d4f;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* === Form Fields === */
+.bank-modal-input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.bank-modal-input:focus {
+  border-color: #280769;
+}
+
+/* === Buttons === */
+.bank-modal-button {
+  width: 100%;
+  background-color: #280769;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.bank-modal-button:hover {
+  background-color: #166c3b;
+}
+
+.bank-modal-close {
+  background: transparent;
+  border: none;
+  color: #999;
+  font-weight: bold;
+  margin-top: 15px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bank-modal-close:hover {
+  color: #555;
+}
+
+/* === Balance Card Section === */
+.balance-card {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.balance-card h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.balance-card p {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.balance-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.withdraw-btn,
+.history-btn {
+  padding: 10px 20px;
+  background-color: #280769;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.withdraw-btn:hover,
+.history-btn:hover {
+  background-color: #024f29;
+}
+
+/* === Withdrawal List === */
+.withdrawal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.withdrawal-card {
+  background: #f3f3f3;
+  border-radius: 8px;
+  padding: 12px;
+  border-left: 5px solid #4caf50;
+}
+
+/* === Withdrawal Modal Enhancements === */
+.modal-content h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #280769;
+}
+
+/* Labels */
+.modal-content label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Input fields */
+.modal-content input[type="number"],
+.modal-content select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.3s;
+  background-color: #fafafa;
+}
+
+.modal-content input[type="number"]:focus,
+.modal-content select:focus {
+  border-color: #280769;
+}
+
+/* Buttons inside modal */
+.modal-actions button {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-actions button:first-child {
+  background-color: #280769;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.modal-actions button:first-child:hover {
+  background-color: #1f0557;
+}
+
+.modal-actions button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal-actions button:last-child:hover {
+  background-color: #aaa;
+}
+
+/* Stack modal buttons on small screens */
+@media (max-width: 480px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    margin: 6px 0;
+  }
+}
+

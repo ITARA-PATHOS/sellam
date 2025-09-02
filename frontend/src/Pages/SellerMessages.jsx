@@ -5,6 +5,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FaClipboardList, FaHome, FaArrowLeft, FaShoppingCart, FaCog } from 'react-icons/fa';
 import useConversations from '../hooks/useConversations';
 
+
 const SellerMessages = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { conversations, loading, error } = useConversations();
@@ -13,11 +14,13 @@ const SellerMessages = () => {
   void id
   const lastProductId = sessionStorage.getItem('lastProductId');
   console.log("🧭 lastProductId from sessionStorage:", lastProductId);
+  const currentUser = JSON.parse(sessionStorage.getItem("user")); // 👈 buyer
+
 
   const handleChatClick = (conversationId, participant) => {
     sessionStorage.setItem('chatParticipant', JSON.stringify(participant));
     sessionStorage.setItem('conversationId', conversationId);
-    navigate('/chat_seller');
+  navigate(`/chat_seller/${conversationId}`);
   };
 
   return (
@@ -47,10 +50,13 @@ const SellerMessages = () => {
           {conversations
             .filter(c => c.latest_message?.message?.toLowerCase().includes(searchQuery.toLowerCase()))
             .map(conv => {
-              const other = conv.participants.find(p => !p.is_sender);
+             const other = conv.participants.find(p => p.id !== currentUser?.id);
               return (
                 <div key={conv.id} className="chat-item" onClick={() => handleChatClick(conv.id, other)}>
-                  <img src={other.avatar_url || "/default-avatar.png"} alt="User" />
+                  <img 
+  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(other.name || 'Sellam User')}&background=280769&color=fff`}
+                  alt={other.name}
+  className="avatar" />
                   <div className="chat-info">
                     <div className="chat-name">{other.name}</div>
                     <div className="chat-last-message">{conv.latest_message?.message || "No message yet"}</div>

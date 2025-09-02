@@ -1,0 +1,139 @@
+.admin-dashboard1 {
+  padding: 20px;
+  background: #f9fafb;
+}
+
+.dashboard-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: left; /* ensures it's aligned to the left */
+}
+
+.sales-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sales-item {
+  background-color: #280769;
+  color: #fff;               /* white text for contrast */
+  border-radius: 20px;
+  padding: 12px 16px;
+  margin-bottom: 10px;       /* spacing between items */
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+.dashboard-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard-card {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-card1 {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+@media (max-width: 370px) {
+   .dashboard-card1 {
+    max-width: 350px;
+    margin-right: 50px;
+   }
+}
+
+.dashboard-card2 {
+  flex: 1;
+  background: #280769;
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+    .dashboard-stats-grid {
+      max-width: 300px;
+    }
+}
+
+
+.chart-card {
+  min-height: 250px; /* Placeholder height for sales chart */
+}
+
+/* Table styling */
+.dashboard-table {
+  margin-top: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dashboard-table th {
+  background: #f3f4f6;
+  font-weight: bold;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .dashboard-row {
+    flex-direction: column;
+  }
+}

@@ -297,9 +297,17 @@ const handleLocationSelect = async (locationObj) => {
       setPopularProducts(prev => [...prev, ...json.data.map(p => ({
         id: p.id,
         name: p.title,
-        image: p.thumbnail.startsWith('http') ? p.thumbnail : `https://demo.jadesdev.com.ng${p.thumbnail}`,
+image: p.thumbnail 
+          ? (p.thumbnail.startsWith('http') 
+              ? p.thumbnail 
+              : `https://demo.jadesdev.com.ng${p.thumbnail}`) 
+          : product_6, // fallback image
         sellerName: p.seller?.full_name || p.seller?.username || 'Unknown Seller',
-        sellerImage: p.seller?.image && (p.seller.image.startsWith('http') ? p.seller.image : `https://demo.jadesdev.com.ng${p.seller.image}`)
+sellerImage: p.seller?.image 
+          ? (p.seller.image.startsWith('http') 
+              ? p.seller.image 
+              : `https://demo.jadesdev.com.ng${p.seller.image}`) 
+          : pp, // fallback profile pic
       }))]);
       if (!json.pagination.next_page) setPopularHasMore(false);
       else setPopularPage(json.pagination.current_page);

@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaTrash } from "react-icons/fa";
 import { AiOutlinePaperClip, AiOutlineSend, AiOutlineCheck } from "react-icons/ai";
 import { FiSmile, FiMic, FiMoreVertical } from "react-icons/fi";
-import pp from '../Components/Assets/pp.jpg';
 import './CSS/ChatSeller.css';
 import { getAccessToken } from '../utils/token';
 
@@ -20,6 +19,17 @@ const ChatSeller = () => {
   const currentUser = JSON.parse(sessionStorage.getItem('user'));
   const navigate = useNavigate();
 
+  // ✅ DEBUG: Log session values
+  console.log("🧾 conversationId:", conversationId);
+  console.log("👤 currentUser:", currentUser);
+
+  useEffect(() => {
+    if (!conversationId) {
+      console.warn("⚠️ No conversationId found. Redirecting...");
+      navigate('/sellers_chat'); // fallback
+    }
+  }, [conversationId, navigate]);
+
   const toggleKeyboard = () => {
     setIsKeyboardOpen(!isKeyboardOpen);
   };
@@ -32,33 +42,34 @@ const ChatSeller = () => {
     setMessage((prev) => prev + char);
   };
 
- const fetchMessages = useCallback(async () => {
-  const token = await getAccessToken();
-  if (!token || !conversationId) return;
+  const fetchMessages = useCallback(async () => {
+    const token = await getAccessToken();
+    if (!token || !conversationId) return;
 
-  try {
-    const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}/messages?order=desc`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
+    try {
+      const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}/messages?order=desc`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await res.json();
+      console.log("📨 Messages fetched:", data);
+
+      if (data.success && data.data) {
+        const msgs = data.data.map(m => ({
+          text: m.message,
+          type: m.sender?.id === currentUser.id ? "sent" : "received",
+          created_at: m.created_at
+        }));
+        setMessages(msgs.reverse()); // oldest first
       }
-    });
-
-    const data = await res.json();
-    if (data.success && data.data) {
-      const msgs = data.data.map(m => ({
-        text: m.message,
-        type: m.sender?.id === currentUser.id ? "sent" : "received",
-        created_at: m.created_at
-      }));
-      setMessages(msgs.reverse()); // oldest first
+    } catch (err) {
+      console.error("❌ Error fetching messages:", err);
     }
-  } catch (err) {
-    console.error("❌ Error fetching messages:", err);
-  }
-}, [conversationId, currentUser.id]);
-
+  }, [conversationId, currentUser.id]);
 
   const sendMessage = async () => {
     if (message.trim() === "") return;
@@ -80,6 +91,8 @@ const ChatSeller = () => {
       });
 
       const data = await res.json();
+      console.log("✅ Message sent response:", data);
+
       if (data.success) {
         setMessage("");
         fetchMessages();
@@ -90,50 +103,60 @@ const ChatSeller = () => {
   };
 
   const fetchConversation = useCallback(async () => {
-  const token = await getAccessToken();
-  if (!token || !conversationId) return;
+    const token = await getAccessToken();
+    if (!token || !conversationId) return;
 
-  try {
-    const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
+    try {
+      const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await res.json();
+      console.log("📦 Conversation details:", data);
+
+      if (data.success && data.data) {
+        const other = data.data.participants.find(p => p.id !== currentUser.id);
+        setParticipant(other);
       }
-    });
-
-    const data = await res.json();
-    if (data.success && data.data) {
-      const other = data.data.participants.find(p => p.id !== currentUser.id);
-      setParticipant(other);
+    } catch (err) {
+      console.error("❌ Failed to load conversation:", err);
     }
-  } catch (err) {
-    console.error("❌ Failed to load conversation:", err);
-  }
-}, [conversationId, currentUser.id]);
+  }, [conversationId, currentUser.id]);
 
+  const markConversationAsRead = useCallback(async () => {
+    const confirmRead = window.confirm("Do you want to mark this conversation as read?");
+  if (!confirmRead) return;
 
- const markConversationAsRead = useCallback(async () => {
-  const token = await getAccessToken();
-  if (!token || !conversationId) return;
+    const token = await getAccessToken();
+    if (!token || !conversationId) return;
 
-  try {
-    await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ action: 'mark_read' })
-    });
-  } catch (err) {
-    console.error("❌ Failed to mark conversation as read:", err);
-  }
-}, [conversationId]);
+    try {
+      const res = await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: 'mark_read' })
+      });
 
+      console.log("📘 Marked as read:", await res.json());
+          alert("Conversation marked as read.");
+
+    } catch (err) {
+      console.error("❌ Failed to mark conversation as read:", err);
+    }
+  }, [conversationId]);
 
   const deleteConversation = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this chat?");
+  if (!confirmDelete) return;
+
     const token = await getAccessToken();
     if (!token || !conversationId) return;
 
@@ -145,9 +168,12 @@ const ChatSeller = () => {
           Authorization: `Bearer ${token}`
         }
       });
+
+          alert("Conversation deleted.");
       navigate("/sellers_chat");
     } catch (err) {
       console.error("❌ Failed to delete conversation:", err);
+          alert("Failed to delete conversation.");
     }
   };
 
@@ -171,11 +197,17 @@ const ChatSeller = () => {
   };
 
   useEffect(() => {
-  fetchConversation();
-  fetchMessages();
-  markConversationAsRead();
-}, [fetchConversation, fetchMessages, markConversationAsRead]);
+    fetchConversation();
+    fetchMessages();
+    markConversationAsRead();
 
+     const interval = setInterval(() => {
+    fetchMessages(); // Fetch every 2 seconds
+  }, 1000);
+
+  return () => clearInterval(interval); // Cleanupv
+
+  }, [fetchConversation, fetchMessages, markConversationAsRead]);
 
   return (
     <div className="chat-app">
@@ -198,7 +230,12 @@ const ChatSeller = () => {
         <div className="chat-messages">
           {messages.map((msg, index) => (
             <div key={index} className={`message ${msg.type}`}>
-              {msg.type === "received" && <img src={pp} alt="avatar" className="seller-image" />}
+              {msg.type === "received" && participant && (
+                <img
+                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(participant.name || participant.username || 'User')}&background=280769&color=fff`}
+    alt={participant.name} 
+     className="seller-image" />
+              )}
               <div className="message-content">
                 <p>{msg.text}</p>
               </div>

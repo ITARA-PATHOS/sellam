@@ -52,6 +52,7 @@ const SellerOrders = () => {
   };
 
   fetchSellerOrders();
+  
 }, []);
 
   // ✅ Filter dynamically by `seller_status`
@@ -61,6 +62,63 @@ const SellerOrders = () => {
       : orders.filter((order) => {
           return (order.seller_status || '').toLowerCase() === activeTab.toLowerCase();
         });
+
+  // ✅ Function to update both seller and buyer order status
+ const updateOrderStatus = async (orderItemId, newStatus, feedback = null) => {
+  const token = await getAccessToken();
+
+  try {
+    // ✅ Seller update
+    const res1 = await fetch(`${BASE_URL}/v1/orders/seller/${orderItemId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        status: newStatus,
+        feedback: feedback || null // optional
+      })
+    });
+
+    if (!res1.ok) throw new Error("Failed to update seller status");
+
+    // ✅ Buyer update only if status is valid for buyer
+    if (["completed", "rejected"].includes(newStatus)) {
+      const res2 = await fetch(`${BASE_URL}/v1/orders/buyer/${orderItemId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          status: newStatus,
+          feedback: feedback || null
+        })
+      });
+
+       const data2 = await res2.json();
+       console.log("Buyer status update response:", data2); // 👈 log it
+
+      if (!res2.ok) throw new Error("Failed to update buyer status");
+    }
+
+    // ✅ Update UI immediately
+    setOrders(prev =>
+      prev.map(order =>
+        order.id === orderItemId
+          ? { ...order, seller_status: newStatus }
+          : order
+      )
+    );
+
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    alert("Failed to update order status.");
+  }
+};
+
+
 
   return (
     <div className="orders-container">
@@ -73,82 +131,99 @@ const SellerOrders = () => {
       </div>
 
       {/* Status Tabs */}
-      <div className="tabs">
-        {["all", "pending", "processing", "completed", "rejected"].map((status) => (
-          <button
-            key={status}
-            className={`tab-button ${activeTab === status ? "active" : ""}`}
-            onClick={() => setActiveTab(status)}
-          >
-            {status.charAt(0).toUpperCase() + status.slice(1)}
-          </button>
-        ))}
-      </div>
+<div className="tabs">
+  {["all", "pending", "processing", "completed", "rejected"].map((status) => (
+    <button
+      key={status}
+      className={`tab-button ${activeTab === status ? "active" : ""}`}
+      onClick={() => setActiveTab(status)}
+    >
+      {status.charAt(0).toUpperCase() + status.slice(1)}
+    </button>
+  ))}
+</div>
 
-      {/* Orders List */}
-      <div className="orders-list">
-        {loading ? (
-          <p style={{ textAlign: 'center' }}>Loading orders...</p>
-        ) : filteredOrders.length === 0 ? (
-          <p style={{ textAlign: 'center' }}>
-            No {activeTab !== "all" ? activeTab : ""} orders found.
-          </p>
-        ) : (
-          filteredOrders.map((order) => {
-            const product = order.product || {};
-            const buyer = order.buyer || {};
-            const quantity = order.quantity || 1;
-            const total = parseFloat(order.total || order.price || '0');
+{/* Orders List */}
+<div className="orders-list">
+  {loading ? (
+    <p style={{ textAlign: 'center' }}>Loading orders...</p>
+  ) : filteredOrders.length === 0 ? (
+    <p style={{ textAlign: 'center' }}>
+      No {activeTab !== "all" ? activeTab : ""} orders found.
+    </p>
+  ) : (
+    filteredOrders.map((order) => {
+      const product = order.product || {};
+      const buyer = order.buyer || {};
+      const quantity = order.quantity || 1;
+      const total = parseFloat(order.total || order.price || '0');
 
-            return (
-              <div className="order-card" key={order.id}>
-                <div className="row">
-                  <p className="left">Order #{order.code || order.order_id || order.id}</p>
-                  <p className="righttra">
-                    {order.created_at
-                      ? new Date(order.created_at).toLocaleDateString()
-                      : '—'}
-                  </p>
-                </div>
+      return (
+        <div className="order-card" key={order.id}>
+          <div className="row">
+            <p className="left">Order #{order.code || order.order_id || order.id}</p>
+            <p className="righttra">
+              {order.created_at
+                ? new Date(order.created_at).toLocaleDateString()
+                : '—'}
+            </p>
+          </div>
 
-                <div className="row">
-                  <p className="lefttra">Product:</p>
-                  <p className="right">{product.title || '—'}</p>
-                </div>
+          <div className="row">
+            <p className="lefttra">Product:</p>
+            <p className="right">{product.title || '—'}</p>
+          </div>
 
-                <div className="row">
-                  <p className="lefttra">Buyer:</p>
-                  <p className="right">{buyer.full_name || buyer.username || '—'}</p>
-                </div>
+          <div className="row">
+            <p className="lefttra">Buyer:</p>
+            <p className="right">{buyer.full_name || buyer.username || '—'}</p>
+          </div>
 
-                <div className="row">
-                  <p className="lefttra">Quantity:</p>
-                  <p className="right">{quantity}</p>
-                </div>
+          <div className="row">
+            <p className="lefttra">Quantity:</p>
+            <p className="right">{quantity}</p>
+          </div>
 
-                <div className="row">
-                  <p className="lefttra">Total:</p>
-                  <p className="right">₦{total.toFixed(2)}</p>
-                </div>
+          <div className="row">
+            <p className="lefttra">Total:</p>
+            <p className="right">₦{total.toFixed(2)}</p>
+          </div>
 
-                <div className="row">
-                  <p className={`status ${activeTab}`}>
-                    {order.seller_status || '—'}
-                  </p>
-                  <Link
-                    to={`/order_delivered?id=${order.id}`}
-                    style={{ width: "22%", textDecoration: "none" }}
-                  >
-                    <button type="submit" className="details-button">
-                      Details
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            );
-          })
-        )}
-      </div>
+          <div className="row">
+            <p className={`status ${activeTab}`}>
+              {order.seller_status || '—'}
+            </p>
+          </div>
+
+          {/* Status Update Buttons */}
+          <div className="row">
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => updateOrderStatus(order.id, 'processing')}
+                style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
+              >
+                Mark as Processing
+              </button>
+              <button
+                onClick={() => updateOrderStatus(order.id, 'completed')}
+                style={{ backgroundColor: '#28a745', color: '#fff', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
+              >
+                Mark as Completed
+              </button>
+              <button
+                onClick={() => updateOrderStatus(order.id, 'rejected')}
+                style={{ backgroundColor: '#dc3545', color: '#fff', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
+              >
+                Reject Order
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    })
+  )}
+</div>
+
 
       {/* Bottom Navigation */}
       <nav className="bottom-nav2">

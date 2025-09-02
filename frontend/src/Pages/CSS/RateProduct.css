@@ -214,3 +214,28 @@
     margin-top: 30px;
   }
   
+  .anonymous-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  margin-top: 1rem;
+  cursor: pointer;
+  user-select: none;
+  background: #280769;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid white;
+}
+
+.anonymous-checkbox input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4caf50; /* Green check color */
+}
+
+.anonymous-checkbox span {
+  font-size: 16px;
+  color: #fff;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import './CSS/Mode.css';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,6 +13,12 @@ function Mode() {
 
   const handleModeChange = async (mode) => {
     setSelectedMode(mode);
+
+     // ✅ If admin, skip API and just navigate
+    if (mode === "admin") {
+      navigate("/admin-login");
+      return;
+    }
     setLoading(true);
     try {
       const token = await getAccessToken();
@@ -28,9 +34,12 @@ function Mode() {
       const data = await res.json();
       console.log('Change mode response:', data);
       if (data.success) {
-        // A slight delay for UX
         setTimeout(() => {
-          navigate(mode === 'buyer' ? '/home' : '/seller_dashboard');
+          if (mode === 'buyer') {
+            navigate('/home');
+          } else if (mode === 'seller') {
+            navigate('/seller_dashboard');
+          } 
         }, 500);
       } else {
         alert(data.message || 'Failed to change mode');
@@ -43,7 +52,6 @@ function Mode() {
     }
   };
 
-
   return (
     <div className="vc">
       <div className="login-container">
@@ -53,6 +61,7 @@ function Mode() {
         <h2>Choose Mode</h2>
         <p>You can switch mode later in your dashboard</p>
 
+        {/* Buyer & Seller Modes */}
         <div className="mode-options">
           {['buyer', 'seller'].map((mode) => (
             <div
@@ -66,7 +75,7 @@ function Mode() {
               </div>
               <hr className={`hover-line ${selectedMode === mode ? 'active' : ''}`} />
               <p>{mode === 'buyer'
-                ? 'Browse and purchase unique second‑hand items and local artisan crafts.'
+                ? 'Browse and purchase unique second-hand items and local artisan crafts.'
                 : 'List your items effortlessly and connect with buyers in your area.'}
               </p>
               {selectedMode === mode ? (
@@ -77,6 +86,35 @@ function Mode() {
             </div>
           ))}
         </div>
+
+        {/* Admin Section */}
+        <div style={{ marginTop: '30px', textAlign: 'center' }}>
+          <p style={{ fontWeight: 'bold', color: 'red' }}>
+            Strictly for Admins - Restricted from Users
+          </p>
+          <div
+            className={`mode-option ${selectedMode === 'admin' ? 'active' : ''}`}
+            onClick={() => !loading && handleModeChange('admin')}
+            style={{ 
+              cursor: loading ? 'not-allowed' : 'pointer',
+              maxWidth: '350px',
+              margin: '20px auto',
+              opacity: loading && selectedMode !== 'admin' ? 0.6 : 1
+            }}
+          >
+            <div className={`header-container ${selectedMode === 'admin' ? 'active' : ''}`}>
+              <h3>Admin Mode</h3>
+            </div>
+            <hr className={`hover-line ${selectedMode === 'admin' ? 'active' : ''}`} />
+            <p>Manage app, sellers, and buyers process efficiently at Sellam platform.</p>
+            {selectedMode === 'admin' ? (
+              <div className="check-mark">✔️</div>
+            ) : (
+              <div className="radio-button">⚪</div>
+            )}
+          </div>
+        </div>
+
         {loading && <p style={{ color: '#280769', marginTop: '10px' }}>Saving...</p>}
       </div>
     </div>

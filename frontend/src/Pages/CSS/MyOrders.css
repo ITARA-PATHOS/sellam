@@ -4,6 +4,30 @@
     padding: 16px;
     background-color: #f9f9f9;
   }
+
+  .status-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 2px 0;
+  border-radius: 6px;
+  background-color: #eee;
+  font-size: 0.85rem;
+}
+
+/* Optional: Dynamic coloring */
+.status-tag.pending { background-color: #ffc107; color: #000; }
+.status-tag.processing { background-color: #17a2b8; color: #fff; }
+.status-tag.completed { background-color: #28a745; color: #fff; }
+.status-tag.rejected { background-color: #dc3545; color: #fff; }
+
   
 
   /* Notification bell icon */

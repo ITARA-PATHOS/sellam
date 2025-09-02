@@ -7,16 +7,21 @@ import { FiPlus } from "react-icons/fi";
 import { MdCheckCircle } from 'react-icons/md';
 import useConversations from '../hooks/useConversations';
 
+
 const BuyerMessages = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { conversations, loading, error } = useConversations();
   const navigate = useNavigate();
+  
 
   const handleChatClick = (conversationId, participant) => {
     sessionStorage.setItem('chatParticipant', JSON.stringify(participant));
     sessionStorage.setItem('conversationId', conversationId);
-    navigate('/chat_buyer');
+  navigate(`/chat_buyer/${conversationId}`);
   };
+
+   
+  
 
   return (
     <div className="app">
@@ -46,9 +51,16 @@ const BuyerMessages = () => {
             .filter(c => c.latest_message?.message?.toLowerCase().includes(searchQuery.toLowerCase()))
             .map(conv => {
               const seller = conv.participants.find(p => !p.is_sender);
+                                console.log("👤 seller.avatar_url:", seller.avatar_url);
+
               return (
                 <div key={conv.id} className="chat-item" onClick={() => handleChatClick(conv.id, seller)}>
-                  <img src={seller.avatar_url || "/default-avatar.png"} alt="Seller" />
+<img
+  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(seller.name || 'Sellam User')}&background=280769&color=fff`}
+  alt={seller.name}
+  className="avatar"
+/>
+
                   <div className="chat-info">
                     <div className="chat-name">{seller.name}</div>
                     <div className="chat-last-message">

@@ -24,6 +24,10 @@ const SellerDashboard = () => {
   const [notifications, setNotifications] = useState([]);
 const [hasUnread, setHasUnread] = useState(false);
 const [unreadCount, setUnreadCount] = useState(0);
+const [showStatsModal, setShowStatsModal] = useState(false);
+const [reviews, setReviews] = useState([]);
+const [loadingReviews, setLoadingReviews] = useState(false);
+
 
 void notifications
 void hasUnread
@@ -125,6 +129,9 @@ useEffect(() => {
       const dashJson = await dashRes.json();
 
       if (dashJson.success) {
+                console.log("Dashboard stats response:", dashJson.data); // 👈 Add this line
+
+                
         if (typeof dashJson.data === 'object') {
           // When backend is updated to send real stats
           setDashboardStats(dashJson.data);
@@ -144,6 +151,36 @@ useEffect(() => {
   fetchDashboardData();
 }, []);
 
+useEffect(() => {
+  const fetchReviews = async () => {
+    if (!user?.id || !showStatsModal) return;
+
+    setLoadingReviews(true);
+
+    try {
+      const token = await getAccessToken();
+      const res = await fetch(`${BASE_URL}/v1/sellers/${user.id}/reviews?per_page=10`, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        setReviews(json.data);
+      } else {
+        console.error("Failed to fetch reviews:", json.message);
+      }
+    } catch (err) {
+      console.error("Error fetching seller reviews:", err);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
+  fetchReviews();
+}, [user?.id, showStatsModal]);
 
   if (!user) return <div>Loading...</div>;
 
@@ -229,15 +266,25 @@ useEffect(() => {
           <h4>Total Listings</h4>
           <p>{myProducts.length}</p>
         </div>
-        <div className="card">
-          <div className="card-icon-wrapper sales-icon">
-            <img src={ts} alt="Total Sales" />
-          </div>
-          <h4>Total Sales</h4>
-          {!dashboardStats && <p>Dashboard stats coming soon...</p>}
+       <div className="card">
+  <div className="card-icon-wrapper sales-icon">
+    <img src={ts} alt="Total Sales" />
+  </div>
+  <h4>Total Sales</h4>
+  {!dashboardStats ? (
+    <p>Dashboard stats coming soon...</p>
+  ) : (
+    <>
+      <p>₦{dashboardStats.lifetime_stats?.total_sales || 0}</p>
+      {dashboardStats.lifetime_stats?.total_sales > 0 && (
+        <button onClick={() => setShowStatsModal(true)} className="view-stats-btn">
+          Click to view stats
+        </button>
+      )}
+    </>
+  )}
+</div>
 
-        </div>
-      </div>
 
       {/* Listed Items */}
       <div className="list-items-section">
@@ -284,6 +331,67 @@ useEffect(() => {
         ))}
       </div>
 
+      {showStatsModal && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>Sales Statistics</h2>
+
+      <div className="modal-stats">
+        <p><strong>Current Balance:</strong> ₦{dashboardStats.lifetime_stats.current_balance}</p>
+        <p><strong>Products Sold:</strong> {dashboardStats.lifetime_stats.products_sold}</p>
+        <p><strong>Total Orders:</strong> {dashboardStats.lifetime_stats.total_orders}</p>
+        <p><strong>Total Sales:</strong> ₦{dashboardStats.lifetime_stats.total_sales}</p>
+      </div>
+
+     <h3>Recent Reviews</h3>
+
+{loadingReviews ? (
+  <p>Loading reviews...</p>
+) : reviews.length > 0 ? (
+      <div className="reviews-scroll-area">
+  {reviews.map((review) => {
+    console.log("Date value:", review.created_at); // ✅ Log here
+    console.log("Review buyer:", review.buyer);
+
+
+    return (
+      <div className="review-card" key={review.id}>
+        <div className="review-header">
+          <img
+            src={review.buyer?.image || pp}
+            alt={review.buyer?.full_name || "Buyer"}
+            className="review-avatar"
+          />
+          <div>
+            <p className="review-name">{review.buyer?.full_name || "Unknown Buyer"}</p>
+            <p className="review-rating">⭐ {review.rating}/5</p>
+          </div>
+        </div>
+        <p className="review-comment">"{review.comment}"</p>
+        <p className="review-date">
+            {review.created_at || "Date not available"}
+
+        </p>
+      </div>
+    );
+  })}
+  </div>
+ 
+) : (
+  <p>No reviews yet.</p>
+)}
+
+<button className="close-modal-btn" onClick={() => setShowStatsModal(false)}>
+  Close
+</button>
+
+
+      
+    </div>
+  </div>
+)}
+
+
       {/* Floating Add Button */}
       <Link to="/add_items">
         <div className="plus-icon-wrapper">
@@ -324,6 +432,7 @@ useEffect(() => {
           </button>
         </Link>
       </nav>
+    </div>
     </div>
   );
 };

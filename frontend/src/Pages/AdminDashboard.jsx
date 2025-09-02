@@ -1,41 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import './CSS/AdminDashboard.css';
+import React, { useState, useEffect } from "react";
 import {
-  FaTachometerAlt, FaChartBar, FaMoneyCheck, FaGlobe, FaCogs, FaUser, FaKey,
-  FaCoins, FaCreditCard, FaGift, FaAngleDown, FaBell, FaEllipsisV, FaBars
-} from 'react-icons/fa';
+  FaTachometerAlt,
+  FaChartBar,
+  FaMapMarkerAlt ,
+  FaCamera,
+  FaGlobe,
+  FaCogs,
+  FaUser,
+  FaBars,
+  FaBell,
+  FaAngleDown,
+} from "react-icons/fa";
+import { BiMoneyWithdraw } from "react-icons/bi";
+import { GiCardboardBox } from "react-icons/gi";
+import pp from '../Components/Assets/pp.jpg'
+import { MdShoppingCart, MdChatBubbleOutline   } from "react-icons/md";
 
+
+import "./CSS/AdminDashboard.css";
+
+// Import your pages/components
+import AdminSettings from "./AdminSettings";
+import AdminCategory from "./AdminCategory";
+import AdminLocation from "./AdminLocation";
+import AdminWithdrawal from "./AdminWithdrawal";
+import AdminNotifyTemplate from "./AdminNotifyTemplate";
+import AdminOrder from "./AdminOrder";
+import AdminProduct from "./AdminProduct";
+import AdminUser from "./AdminUser";
+import AdminConversations from "./AdminConversations";
+import AdminDashboardPage from "./AdminDashboardPage";
+
+// Sidebar config
 const sidebarItems = [
-  { section: 'MENU', items: [
-    { icon: <FaTachometerAlt />, label: 'Dashboard' },
-    { icon: <FaChartBar />, label: 'Statistics' },
-    { icon: <FaMoneyCheck />, label: 'API Balance' }
-  ]},
-  { section: 'SERVICES', items: [
-    { icon: <FaGift />, label: 'Bill Plans' },
-    { icon: <FaGlobe />, label: 'API Websites' },
-    { icon: <FaCogs />, label: 'Bills Setting' },
-    { icon: <FaCogs />, label: 'API Selection' }
-  ]},
-  { section: 'USERS', items: [
-    { icon: <FaUser />, label: 'Users' },
-    { icon: <FaKey />, label: 'User Setting' },
-    { icon: <FaKey />, label: 'KYC' }
-  ]},
-  { section: 'CRYPTOCURRENCY', items: [
-    { icon: <FaCoins />, label: 'Cryptocurrencies' },
-    { icon: <FaCoins />, label: 'Crypto Orders' }
-  ]},
-  { section: 'GIFTCARD', items: [
-    { icon: <FaCreditCard />, label: 'Giftcards' },
-    { icon: <FaCreditCard />, label: 'Giftcard Plans' }
-  ]}
+  {
+    section: "MENU",
+    items: [
+      { icon: <FaTachometerAlt />, label: "Dashboard" },
+      { icon: <FaChartBar />, label: "Categories" },
+      { icon: <FaMapMarkerAlt  />, label: "Locations" },
+      { icon: <FaCogs />, label: "Settings" },
+    ],
+  },
+  {
+    section: "SERVICES",
+    items: [
+      { icon: <BiMoneyWithdraw />, label: "Withdrawals" },
+      { icon: <FaGlobe />, label: "Notify Templates" },
+      { icon: <MdShoppingCart  />, label: "Orders" },
+      { icon: <GiCardboardBox />, label: "Products" },
+      { icon: <MdChatBubbleOutline  />, label: "Conversations" },
+    ],
+  },
+  {
+    section: "USERS",
+    items: [{ icon: <FaUser />, label: "Users" }],
+  },
 ];
 
-const AdminDashboard = () => {
-  const [selected, setSelected] = useState('Giftcards');
+export default function AdminDashboard() {
+  const [selected, setSelected] = useState("Dashboard");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 768);
+  const [profilePic, setProfilePic] = useState(pp);
+
+
+  // ✅ Get admin name from sessionStorage
+  const [adminName, setAdminName] = useState(
+    sessionStorage.getItem("adminName") || "Super Admin"
+  );
+
+  void setAdminName
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,30 +78,84 @@ const AdminDashboard = () => {
       setIsMobile(nowMobile);
       setShowSidebar(!nowMobile);
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const isGiftcardPage = selected === 'Giftcards';
+
+  // Load stored profile image from sessionStorage
+  useEffect(() => {
+    const storedPic = sessionStorage.getItem("profilePic");
+    if (storedPic) {
+      setProfilePic(storedPic);
+    }
+  }, []);
+
+  // Handle new upload
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePic(reader.result);
+        sessionStorage.setItem("profilePic", reader.result); // Save to sessionStorage
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const renderPage = () => {
+    switch (selected) {
+      case "Dashboard":
+        return <AdminDashboardPage />;
+      case "Categories":
+        return <AdminCategory />;
+      case "Locations":
+        return <AdminLocation />;
+      case "Withdrawals":
+        return <AdminWithdrawal />;
+      case "Notify Templates":
+        return <AdminNotifyTemplate />;
+      case "Orders":
+        return <AdminOrder />;
+      case "Products":
+        return <AdminProduct />;
+      case "Users":
+        return <AdminUser />;
+      case "Conversations":
+        return <AdminConversations />;
+      case "Settings":
+        return <AdminSettings />;
+      default:
+        return <AdminDashboardPage />;
+    }
+  };
 
   return (
     <div className="admin-dashboard">
+      {/* Mobile toggle */}
       {isMobile && (
-        <button className="toggle-sidebar-btn" onClick={() => setShowSidebar(!showSidebar)}>
+        <button
+          className="toggle-sidebar-btn"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
           <FaBars /> SidePanel
         </button>
       )}
 
-      <aside className={`sidebar ${showSidebar ? 'visible' : 'hidden'}`}>
+      {/* Sidebar */}
+      <aside className={`sidebar ${showSidebar ? "visible" : "hidden"}`}>
         <div className="sidebar-logo">LOGO</div>
         <div className="sidebar-menu">
-          {sidebarItems.map(group => (
+          {sidebarItems.map((group) => (
             <div key={group.section}>
               <p className="sidebar-section">{group.section}</p>
-              {group.items.map(item => (
+              {group.items.map((item) => (
                 <button
                   key={item.label}
-                  className={`menu-item ${selected === item.label ? 'active' : ''}`}
+                  className={`menu-item ${
+                    selected === item.label ? "active" : ""
+                  }`}
                   onClick={() => {
                     setSelected(item.label);
                     if (isMobile) setShowSidebar(false);
@@ -80,92 +169,57 @@ const AdminDashboard = () => {
         </div>
       </aside>
 
+      {/* Main Area */}
       <div className="main-area">
+        {/* Topbar */}
         <div className="topbar-fixed">
-          <FaBars className="topbar-icon-left" />
+          <h1 className="topbar-icon-left">Welcome Dear Admin</h1>
           <div className="topbar-right">
             <div className="notification-wrapper">
               <FaBell className="topbar-icon" />
               <span className="notif-dot" />
             </div>
-            <img src="https://via.placeholder.com/30" alt="profile" className="topbar-profile" />
-            <div className="super-admin">
-              Super Admin <FaAngleDown />
+            <div className="profile-container4">
+      <img
+        src={profilePic || pp }
+        alt="profile"
+        className="topbar-profile"
+      />
+      <label className="camera-icon7">
+        <FaCamera className="flip"/>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{ display: "none" }}
+        />
+      </label>
+    </div>
+             <div className="super-admin">
+              {adminName} <FaAngleDown />
               <div className="dropdown-menu">
-                <button>Logout</button>
+                <button
+                  onClick={() => {
+                    sessionStorage.removeItem("adminName");
+                    window.location.href = "/"; // redirect back
+                  }}
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Breadcrumb */}
         <div className="breadcrumb-area">
           <span className="section-title">{selected}</span>
-          <span className="breadcrumb">Bills &gt; {selected}</span>
+          <span className="breadcrumb">Access &gt; {selected}</span>
         </div>
 
-        {isGiftcardPage && (
-          <div className="table-controls">
-            <div className="entries">
-              Show
-              <select>
-                {[...Array(10)].map((_, i) => (
-                  <option key={i + 1}>{i + 1}</option>
-                ))}
-              </select>
-              entries
-            </div>
-            <div className="search-box">
-              <input type="text" placeholder="Search..." />
-            </div>
-          </div>
-        )}
-
-        {isGiftcardPage ? (
-          <div className="giftcard-section">
-            <div className="section-header">
-              <h2>Giftcard</h2>
-              <button className="add-btn">Add Giftcard</button>
-            </div>
-            <div className="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>S/N</th>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>Plans</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { id: 1, name: 'Apple', status: 'active' },
-                    { id: 2, name: 'Amazon', status: 'active' },
-                    { id: 3, name: 'Bitcoin', status: 'disabled' },
-                    { id: 4, name: 'Steam', status: 'active' },
-                    { id: 5, name: 'Google Play', status: 'active' }
-                  ].map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td><img src={`https://via.placeholder.com/40x30?text=${item.name[0]}`} alt={item.name} className="table-img" /></td>
-                      <td>{index}</td>
-                      <td><span className={`status-badge ${item.status}`}>{item.status}</span></td>
-                      <td><FaEllipsisV className="action-icon" /></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="pagination">Showing 1 to 5 of 5 entries</div>
-            </div>
-          </div>
-        ) : (
-          <div className="placeholder-message">This is the {selected} section.</div>
-        )}
+        {/* Page Content */}
+        {renderPage()}
       </div>
     </div>
   );
-};
-
-export default AdminDashboard;
+}

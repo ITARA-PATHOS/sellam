@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft, FaTrashAlt, FaCheckDouble } from "react-icons/fa";
 import { AiOutlinePaperClip, AiOutlineSend } from "react-icons/ai";
 import { FiSmile, FiMic, FiMoreVertical } from "react-icons/fi";
-import pp from '../Components/Assets/pp.jpg';
 import './CSS/ChatBuyer.css';
 import { getAccessToken } from '../utils/token';
 
@@ -70,15 +69,25 @@ const fetchMessages = useCallback(async () => {
 }, [conversationId, currentUser.id]);
 
 const markAsRead = useCallback(async () => {
+  const confirmRead = window.confirm("Do you want to mark this conversation as read?");
+  if (!confirmRead) return;
+
   const token = await getAccessToken();
   try {
     await fetch(`${BASE_URL}/v1/conversations/${conversationId}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json'
+
+      },
+              body: JSON.stringify({ action: 'mark_read' })
+
     });
+
+          alert("Conversation marked as read.");
+
   } catch (err) {
     console.warn("⚠️ Failed to mark as read");
   }
@@ -100,6 +109,8 @@ const markAsRead = useCallback(async () => {
       window.location.href = "/buyers_chat";
     } catch (err) {
       console.error("❌ Failed to delete conversation:", err);
+                alert("Failed to delete conversation.");
+
     }
   };
 
@@ -134,6 +145,13 @@ const markAsRead = useCallback(async () => {
   fetchConversation();
   fetchMessages();
   markAsRead();
+
+  const interval = setInterval(() => {
+    fetchMessages(); // Fetch every 2 seconds
+  }, 1000);
+
+  return () => clearInterval(interval); // Cleanupv
+
 }, [fetchConversation, fetchMessages, markAsRead]);
 
   const renderKeyboard = () => {
@@ -177,8 +195,11 @@ const markAsRead = useCallback(async () => {
         <div className="chat-messages">
           {messages.map((msg, index) => (
             <div key={index} className={`message ${msg.type}`}>
-              {msg.type === "received" && (
-                <img src={pp} alt="Profile" className="seller-image" />
+              {msg.type === "received" && participant && (
+                <img
+                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(participant.name || participant.username || 'User')}&background=280769&color=fff`}
+    alt={participant.name} 
+     className="seller-image" />
               )}
               <div className="message-content">
                 <p>{msg.text}</p>
