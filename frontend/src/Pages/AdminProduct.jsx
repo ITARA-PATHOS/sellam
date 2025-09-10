@@ -21,12 +21,20 @@ const [rejectReason, setRejectReason] = useState("");
 const [perPage, setPerPage] = useState(20); // default 20
 
 
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    stock: "",
-  });
+  // top of component
+const [formData, setFormData] = useState({
+  title: "",
+  description: "",
+  price: "",
+  category_id: "",
+  condition: "",
+  location_id: "",
+  attributes: [],
+  tags: [],
+  images: [],         // ✅ always start as empty array
+  delete_images: [],  // ✅ always start as empty array
+});
+
 
   // Fetch all products
   const fetchProducts = async () => {
@@ -276,18 +284,31 @@ const [perPage, setPerPage] = useState(20); // default 20
     setEditingProduct(null);
   };
 
-  // start editing
-  const handleEdit = (product) => {
-    setEditingProduct(product);
-    setFormData({
-      title: product.title || "",
-      description: product.description || "",
-      price: product.price || "",
-      stock: product.stock || "",
-      featured: product.featured === "true" || product.featured === true
-
-    });
-  };
+// start editing
+const handleEdit = (product) => {
+  setEditingProduct(product);
+  setFormData({
+    title: product.title || "",
+    description: product.description || "",
+    price: product.price || "",
+    category_id: product.category_id || "",
+    condition: product.condition || "",
+    location_id: product.location_id || "",
+    attributes: Array.isArray(product.attributes)
+      ? product.attributes
+      : product.attributes
+      ? [product.attributes]
+      : [],
+    tags: Array.isArray(product.tags)
+      ? product.tags
+      : product.tags
+      ? [product.tags]
+      : [],
+    images: [],          // 🚩 always empty until user uploads new ones
+    existing_images: product.images || [], // show current
+    delete_images: [],   // 🚩 start fresh (backend doesn’t send this)
+  });
+};
 
   // form change
   const handleChange = (e) => {
@@ -295,37 +316,65 @@ const [perPage, setPerPage] = useState(20); // default 20
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // submit update
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault();
-    if (!editingProduct) return;
+const handleUpdateSubmit = async (e) => {
+  e.preventDefault();
+  if (!editingProduct) return;
 
-    try {
-      const token = await getAccessToken();
-      const res = await fetch(
-        `${BASE_URL}/v1/admin/products/${editingProduct.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-          ...formData,
-          featured: formData.featured ? 1 : 0, // ✅ API usually expects 0/1 or true/false          ),
-        }),
+  try {
+    const token = await getAccessToken();
+    const fd = new FormData();
+
+    fd.append("title", formData.title);
+    fd.append("description", formData.description);
+    fd.append("price", formData.price);
+    fd.append("category_id", formData.category_id);
+    fd.append("condition", formData.condition);
+    fd.append("location_id", formData.location_id);
+
+    formData.attributes.forEach((a) => fd.append("attributes[]", a));
+    formData.tags.forEach((t) => fd.append("tags[]", t));
+    formData.delete_images.forEach((d) => fd.append("delete_images[]", d));
+
+    // Only send new files
+    formData.images.forEach((img) => {
+      if (img instanceof File) {
+        fd.append("images[]", img);
       }
-      );
+    });
 
-      if (!res.ok) throw new Error("Failed to update product");
+    for (let [key, value] of fd.entries()) {
+  console.log(key, value);
+}
 
-      await fetchProducts();
-      setEditingProduct(null);
-      setSelectedProduct(null);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+
+    const res = await fetch(
+      `${BASE_URL}/v1/admin/products/${editingProduct.id}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: fd,
+      }
+    );
+
+    const data = await res.json();
+    console.log("⬅️ Update Response:", data);
+
+    if (!res.ok) throw new Error(data.message || "Failed to update product");
+
+    // Reset stale state before fetching
+    setEditingProduct(null);
+    setSelectedProduct(null);
+    await fetchProducts();
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
 
   // Load formData (including featured) from sessionStorage if it exists
 useEffect(() => {
@@ -534,76 +583,195 @@ useEffect(() => {
         <div className="product-modal-overlay">
           <div className="product-modal-content">
             <h3>Edit Product</h3>
-            <form onSubmit={handleUpdateSubmit} className="product-edit-form">
-              <label>
-                Title
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <label>
-                Description
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <label>
-                Price
-                <input
-                  type="number"
-                  name="price"
-                  value={formData.price}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <label>
-                Stock
-                <input
-                  type="number"
-                  name="stock"
-                  value={formData.stock}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-      <label className="toggle-label2">
-  <button
-    type="button"
-    className={`toggle-btn3 ${formData.featured ? "active" : ""}`}
-    onClick={() =>
-      setFormData((prev) => ({
-        ...prev,
-        featured: !prev.featured,
-      }))
-    }
-  >
-    {formData.featured ? "✅ Featured" : "➕ Not Featured"}
-  </button>
-</label>
+           <form onSubmit={handleUpdateSubmit} className="product-edit-form">
+  {/* Title */}
+  <label>
+    Title
+    <input
+      type="text"
+      name="title"
+      value={formData.title}
+      onChange={handleChange}
+      required
+    />
+  </label>
 
+  {/* Description */}
+  <label>
+    Description
+    <textarea
+      name="description"
+      value={formData.description}
+      onChange={handleChange}
+      required
+    />
+  </label>
 
+  {/* Price */}
+  <label>
+    Price
+    <input
+      type="number"
+      name="price"
+      value={formData.price}
+      onChange={handleChange}
+      required
+    />
+  </label>
 
-              <div className="product-modal-actions">
-                <button type="submit" className="product-btn-update">
-                  Save
-                </button>
-                <button
-                  type="button"
-                  className="product-btn-close"
-                  onClick={() => setEditingProduct(null)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+  {/* Category ID */}
+  <label>
+    Category ID
+    <input
+      type="text"
+      name="category_id"
+      value={formData.category_id}
+      onChange={handleChange}
+    />
+  </label>
+
+  {/* Condition */}
+  <label>
+    Condition
+    <input
+      type="text"
+      name="condition"
+      value={formData.condition}
+      onChange={handleChange}
+    />
+  </label>
+
+  {/* Location ID */}
+  <label>
+    Location ID
+    <input
+      type="text"
+      name="location_id"
+      value={formData.location_id}
+      onChange={handleChange}
+    />
+  </label>
+
+  {/* Attributes */}
+  <label>
+    Attributes (comma separated)
+    <input
+      type="text"
+      name="attributes"
+      value={formData.attributes.join(", ")}
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          attributes: e.target.value
+            .split(",")
+            .map((a) => a.trim())
+            .filter(Boolean),
+        })
+      }
+    />
+  </label>
+
+  {/* Tags */}
+  <label>
+    Tags (comma separated)
+    <input
+      type="text"
+      name="tags"
+      value={formData.tags.join(", ")}
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          tags: e.target.value
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean),
+        })
+      }
+    />
+  </label>
+
+  {/* Upload new images */}
+  <label>
+    Upload New Images
+    <input
+      type="file"
+      name="images"
+      accept="image/*"
+      multiple
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          images: Array.from(e.target.files),
+        })
+      }
+    />
+  </label>
+
+  {/* Show existing images with delete checkboxes */}
+  {formData.existing_images?.length > 0 && (
+    <div className="existing-images">
+      <p>Existing Images (check to delete):</p>
+      <div className="image-list5">
+       {formData.existing_images?.length > 0 && (
+  <div className="existing-images">
+    <p>Existing Images (check to delete):</p>
+    <div className="image-list5">
+      {formData.existing_images.map((img, idx) => {
+        // support both string and object from backend
+        const imageUrl =
+          typeof img === "string"
+            ? img
+            : img.thumb || img.original || img.url;
+
+        const imageId =
+          img.id || img.original || img.thumb || img; // use something unique for delete
+        return (
+          <div key={idx} className="image-item5">
+            <img
+              src={imageUrl}
+              alt="product"
+              className="preview-img2"
+            />
+            <label style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <input
+                type="checkbox"
+                className="juti"
+                checked={formData.delete_images.includes(imageId)}
+                onChange={(e) => {
+                  const updatedDeletes = e.target.checked
+                    ? [...formData.delete_images, imageId]
+                    : formData.delete_images.filter((id) => id !== imageId);
+                  setFormData({ ...formData, delete_images: updatedDeletes });
+                }}
+              />
+              Delete
+            </label>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+)}
+
+      </div>
+    </div>
+  )}
+
+  {/* Buttons */}
+  <div className="product-modal-actions">
+    <button type="submit" className="product-btn-update">
+      Save
+    </button>
+    <button
+      type="button"
+      className="product-btn-close"
+      onClick={() => setEditingProduct(null)}
+    >
+      Cancel
+    </button>
+  </div>
+</form>
+
           </div>
         </div>
       )}

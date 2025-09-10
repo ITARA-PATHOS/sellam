@@ -3,6 +3,14 @@ import { getAccessToken } from "../utils/token";
 import "./CSS/AdminCategory.css";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const formatImageUrl = (image) => {
+  if (!image) return null;
+  // If backend already gave full URL, use it directly
+  if (image.startsWith("http")) return image;
+  // Otherwise, prepend BASE_URL
+  return `${BASE_URL.replace(/\/$/, "")}/${image.replace(/^\//, "")}`;
+};
+
 console.log("BASE_URL:", BASE_URL); // ✅ check if it's defined and correct
 
 
@@ -37,10 +45,11 @@ const AdminCategory = () => {
       const data = await res.json();
       if (data.success) {
         // Wrap images with BASE_URL
-        const catsWithImages = data.data.map((cat) => ({
-          ...cat,
-          image: cat.image ? `${BASE_URL}${cat.image}` : null,
-        }));
+      const catsWithImages = data.data.map((cat) => ({
+  ...cat,
+  image: formatImageUrl(cat.image),
+}));
+
         setCategories(catsWithImages || []);
       } else {
         setError(data.message);
@@ -65,10 +74,11 @@ const AdminCategory = () => {
       });
       const data = await res.json();
       if (data.success) {
-        setDetails({
-          ...data.data,
-          image: data.data.image ? `${BASE_URL}${data.data.image}` : null,
-        });
+    setDetails({
+  ...data.data,
+  image: formatImageUrl(data.data.image),
+});
+
       }
     } catch (err) {
       console.error(err);
@@ -98,18 +108,12 @@ const AdminCategory = () => {
       const data = await res.json();
       console.log("⬅️ Create Response:", data);
 
-      if (data.success) {
-        // Add new category with full image URL
-       const newCat = {
-  ...data.data,
-  image: data.data.image
-    ? `${BASE_URL.replace(/\/$/, "")}/${data.data.image.replace(/^\//, "")}`
-    : null,
-};
-console.log("Fetching image with URL (create):", newCat.image);
-        setCategories((prev) => [...prev, newCat]);
-        resetForm();
-      } else {
+    if (data.success) {
+  await fetchCategories();   // refresh categories after creating
+  setDetails(null);
+  resetForm();
+}
+ else {
         alert(data.message || "Failed to create category");
       }
     } catch (err) {
@@ -160,23 +164,10 @@ console.log("Fetching image with URL (create):", newCat.image);
       if (data.success) {
         console.log("✅ Updated category:", data.data);
 
-       const updatedCat = {
-  ...data.data,
-  image: data.data.image
-    ? `${BASE_URL.replace(/\/$/, "")}/${data.data.image.replace(/^\//, "")}`
-    : null,
-};
-
-console.log("Fetching image with URL (update):", updatedCat.image);
-
-
-        setCategories((prev) =>
-          prev.map((cat) => (cat.id === updatedCat.id ? updatedCat : cat))
-        );
-
-        setDetails(updatedCat);
-        resetForm(updatedCat);
-      } else {
+        await fetchCategories();     // get fresh data from backend
+      setDetails(null);            // close details modal
+      resetForm();                 // reset form to default
+    } else {
         alert(data.message || "Failed to update category");
       }
     } catch (err) {

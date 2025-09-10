@@ -319,3 +319,24 @@
   color: #fff;
   border-color: #0077cc;
 }
+
+.existing-images {
+  margin: 10px 0;
+}
+.image-list5 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.image-item5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.preview-img2 {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
