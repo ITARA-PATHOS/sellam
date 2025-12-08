@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './CSS/Signup.css';
-import { FaGoogle, FaFacebookF, FaTwitter, FaEyeSlash } from 'react-icons/fa';
+import { FaGoogle, FaFacebookF, FaTwitter, FaEyeSlash, FaEye } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL; // ✅ Reusable base URL for all fetch calls
@@ -18,6 +18,8 @@ const Signup = () => {
 
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -130,30 +132,41 @@ const Signup = () => {
             <label htmlFor="password">Create Password</label>
             <div className="password-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}                
                 id="password"
                 placeholder="Enter password"
                 required
                 value={formData.password}
                 onChange={handleChange}
               />
-              <button type="button" className="show-password"><FaEyeSlash /></button>
-            </div>
+<button
+      type="button"
+      className="show-password"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+    {showPassword ? <FaEye /> : <FaEyeSlash />}
+    </button>
+                </div>
           </div>
 
           <div className="input-group">
             <label htmlFor="password_confirmation">Confirm Password</label>
             <div className="password-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}                
                 id="password_confirmation"
                 placeholder="Confirm password"
                 required
                 value={formData.password_confirmation}
                 onChange={handleChange}
               />
-              <button type="button" className="show-password"><FaEyeSlash /></button>
-            </div>
+<button
+      type="button"
+      className="show-password"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+    {showPassword ? <FaEye /> : <FaEyeSlash />}
+    </button>            </div>
           </div>
 
           <div className="remember-me">

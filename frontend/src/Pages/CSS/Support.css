@@ -8,9 +8,52 @@
 
 .ss{
     cursor: pointer;
+    border-radius: 50%;
     
 }
 
 .ss:hover {
     transform: translate(2px, 4px);
+}
+.popup-overlay34 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-box34 {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.phone-number {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.close-btn12 {
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: #280769;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.email-btn12 {
+    border-color: #280769;
+    border-radius: 50%;
 }

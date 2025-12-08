@@ -29,7 +29,7 @@ function HomePage() {
   const [userProfile, setUserProfile] = useState(null);
 // Location Dropdown UI states
 const [locations, setLocations] = useState([]);
-const [currentLocation, setCurrentLocation] = useState('Select location');
+const [currentLocation, setCurrentLocation] = useState({ id: null, name: "Select location" });
 
 // Selected location logic
 const [selectedLocationId, setSelectedLocationId] = useState(null);
@@ -153,7 +153,7 @@ useEffect(() => {
           let img =
             sessionStorage.getItem(`profile_image_url_${profileJson.data.username}`) ||
             profileJson.data.image;
-          if (img && !img.startsWith('http')) {
+          if (img && typeof img === 'string' && !img.startsWith('http')) {
             img = `https://demo.jadesdev.com.ng${img.replace('/upload/', '/public/upload/')}`;
           }
           setUserProfile({ ...profileJson.data, image: img });
@@ -218,13 +218,14 @@ useEffect(() => {
         },
       });
       const locJson = await locRes.json();
+      console.log("Full list of locations :", locJson)
       if (locJson.success) setLocations(locJson.data);
     } catch (e) {
       console.error('Failed to fetch locations:', e);
     }
 
     // 7. Fetch selected location's details if set (by ID)
-    if (currentLocation?.id) {
+    if (currentLocation && currentLocation.id !== null) {
       try {
         const res = await fetch(`${BASE_URL}/v1/locations/${currentLocation.id}`, {
           headers: {
@@ -298,13 +299,13 @@ const handleLocationSelect = async (locationObj) => {
         id: p.id,
         name: p.title,
 image: p.thumbnail 
-          ? (p.thumbnail.startsWith('http') 
+          ? (typeof p.thumbnail === 'string' && p.thumbnail.startsWith('http')
               ? p.thumbnail 
               : `https://demo.jadesdev.com.ng${p.thumbnail}`) 
           : product_6, // fallback image
         sellerName: p.seller?.full_name || p.seller?.username || 'Unknown Seller',
 sellerImage: p.seller?.image 
-          ? (p.seller.image.startsWith('http') 
+          ? (typeof p.seller.image === 'string' && p.seller.image.startsWith('http') 
               ? p.seller.image 
               : `https://demo.jadesdev.com.ng${p.seller.image}`) 
           : pp, // fallback profile pic
@@ -323,9 +324,13 @@ sellerImage: p.seller?.image
       setTrendingProducts(prev => [...prev, ...json.data.map(p => ({
         id: p.id,
         name: p.title,
-        image: p.thumbnail.startsWith('http') ? p.thumbnail : `https://demo.jadesdev.com.ng${p.thumbnail}`,
+        image: (typeof p.thumbnail === 'string' && p.thumbnail.startsWith('http'))
+        ? p.thumbnail : `https://demo.jadesdev.com.ng${p.thumbnail}`,
         sellerName: p.seller?.full_name || p.seller?.username || 'Unknown Seller',
-        sellerImage: p.seller?.image && (p.seller.image.startsWith('http') ? p.seller.image : `https://demo.jadesdev.com.ng${p.seller.image}`)
+        sellerImage: p.seller?.image 
+        ? ((typeof p.seller.image === 'string' && p.seller.image.startsWith('http')) 
+        ? p.seller.image : `https://demo.jadesdev.com.ng${p.seller.image}`)
+        : pp,
       }))]);
       if (!json.pagination.next_page) setTrendingHasMore(false);
       else setTrendingPage(json.pagination.current_page);
@@ -358,24 +363,24 @@ sellerImage: p.seller?.image
 
       // Map API data to your component format
       const mappedProducts = json.data.map((p) => ({
-        id: p.id,
-        name: p.title,
-        image:
-          p.thumbnail && p.thumbnail.startsWith('http')
-            ? p.thumbnail
-            : p.thumbnail
-            ? `https://demo.jadesdev.com.ng${p.thumbnail}`
-            : '', // fallback empty string if no thumbnail
-        sellerName: p.seller?.full_name || p.seller?.username || 'Unknown Seller',
-        sellerImage:
-          p.seller?.image && (p.seller.image.startsWith('http')
-            ? p.seller.image
-            : `https://demo.jadesdev.com.ng${p.seller.image}`),
-        createdAt: p.created_at,
-        viewStats: p.view_stats,
-        price: p.price || 'N/A',
-        location: p.location?.name || 'Unknown',
-      }));
+  id: p.id,
+  name: p.title,
+  image: p.thumbnail
+    ? (typeof p.thumbnail === 'string' && p.thumbnail.startsWith('http')
+        ? p.thumbnail
+        : `https://demo.jadesdev.com.ng${p.thumbnail}`)
+    : '',
+  sellerName: p.seller?.full_name || p.seller?.username || 'Unknown Seller',
+  sellerImage: p.seller?.image
+    ? (typeof p.seller.image === 'string' && p.seller.image.startsWith('http')
+        ? p.seller.image
+        : `https://demo.jadesdev.com.ng${p.seller.image}`)
+    : pp,
+  createdAt: p.created_at,
+  viewStats: p.view_stats,
+  price: p.price || 'N/A',
+  location: p.location?.name || 'Unknown',
+}));
 
       console.log('Mapped recently viewed:', mappedProducts);
 
@@ -452,8 +457,14 @@ const toggleRecentlyViewed = () => {
 
       {/* Location Dropdown */}
     {/* LOCATION SELECTOR */}
-<div className="location-dropdown" onClick={() => setShowDropdown((prev) => !prev)}>
-  <span>Currently shopping at: {currentLocation?.name || 'Select location'}</span>
+<div
+  className="location-dropdown"
+  onClick={() => setShowDropdown(!showDropdown)}
+  style={{ userSelect: 'none' }}
+>
+  <span>
+    Currently shopping at: {currentLocation?.name || 'Select location'}
+  </span>
   <FaChevronDown className="dropdown-icon" />
 </div>
 
@@ -538,14 +549,15 @@ const toggleRecentlyViewed = () => {
         <div key={p.id} className="product-card">
           <div className="image-container">
             <img
-              src={
-                p.thumbnail?.startsWith('http')
-                  ? p.thumbnail
-                  : `https://demo.jadesdev.com.ng${p.thumbnail}`
-              }
-              alt={p.title}
-              className="product-image"
-            />
+  src={
+    p.thumbnail && typeof p.thumbnail === 'string' && p.thumbnail.startsWith('http')
+      ? p.thumbnail
+      : `https://demo.jadesdev.com.ng${p.thumbnail || ''}`
+  }
+  alt={p.title}
+  className="product-image"
+/>
+
           </div>
 
           <div className="poptext">
@@ -555,19 +567,16 @@ const toggleRecentlyViewed = () => {
             </div>
 
             {p.seller?.image && (
-              <div className="seller-image-wrapper">
-                <img
-                  src={
-                    p.seller.image.startsWith('http')
-                      ? p.seller.image
-                      : `https://demo.jadesdev.com.ng${p.seller.image}`
-                  }
-                  alt="Seller"
-                  className="profile-pic"
-                  style={{ width: '50px', height: '50px', borderRadius: '50%', marginTop: '8px' }}
-                />
-              </div>
-            )}
+  <img
+    src={
+      p.seller.image && typeof p.seller.image === 'string' && p.seller.image.startsWith('http')
+        ? p.seller.image
+        : `https://demo.jadesdev.com.ng${p.seller.image || ''}`
+    }
+    alt="Seller"
+    className="profile-pic"
+  />
+)}
 
             <p className="ppr">${p.price}</p>
             <p className="ppr1">Location: {p.location?.name || 'Unknown'}</p>

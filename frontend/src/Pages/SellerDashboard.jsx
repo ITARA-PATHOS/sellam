@@ -256,6 +256,9 @@ useEffect(() => {
           
         </div>
       </header>
+         <div style={{textAlign:"center"}}> <h4>Dear Sellers, Kindly refresh to view your product listings and Updates. Welcome to Sellam App!.</h4> </div>
+               
+
 
       {/* Summary Cards */}
       <div className="summary-cards">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './CSS/LoginSignup.css';
-import { FaGoogle, FaFacebookF, FaTwitter, FaEyeSlash } from 'react-icons/fa';
+import { FaGoogle, FaFacebookF, FaTwitter, FaEyeSlash, FaEye } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -8,63 +8,64 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const LoginSignup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setMessage('');
-  setLoading(true);
+    e.preventDefault();
+    setMessage('');
+    setLoading(true);
 
-  try {
-    const response = await fetch(`${BASE_URL}/v1/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch(`${BASE_URL}/v1/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (
-  data.success &&
-  data.data &&
-  data.data.token &&
-  data.data.token.access_token
-) {
-  const accessToken = data.data.token.access_token;
-  const refreshToken = data.data.token.refresh_token;
-  const user = data.data.user; // ✅ this contains the user info including role/type
+      if (
+        data.success &&
+        data.data &&
+        data.data.token &&
+        data.data.token.access_token
+      ) {
+        const accessToken = data.data.token.access_token;
+        const refreshToken = data.data.token.refresh_token;
+        const user = data.data.user; // user object includes role/type
 
+        sessionStorage.setItem('access_token', accessToken);
+        sessionStorage.setItem('refresh_token', refreshToken);
+        sessionStorage.setItem('user', JSON.stringify(user));
 
-  console.log('✅ Tokens:', accessToken, refreshToken); // ← See what's printed
-  console.log('👤 User:', user); // Log it for verification
+        setMessage('✅ Login successful! Redirecting...');
 
-  sessionStorage.setItem('access_token', accessToken);
-  sessionStorage.setItem('refresh_token', refreshToken);
-  sessionStorage.setItem('user', JSON.stringify(user)); // ✅ Add this
-
-  setMessage('✅ Login successful! Redirecting...');
-  setTimeout(() => {
-    navigate('/page-loading');
-  }, 1000);
-} else {
-  console.log('❌ Login failed. Full data:', data);
-  setMessage(data?.message || '❌ Invalid email or password.');
-}
-
-  } catch (error) {
-    console.error('❌ Network error:', error);
-    setMessage('❌ Network error. Please try again later.');
-  } finally {
-    setLoading(false);
-  }
-};
+        // 🔹 Redirect based on role/type
+        setTimeout(() => {
+          if (user.role === 'admin' || user.email === 'admin@sellam.com') {
+            navigate('/adminmode');
+          } else {
+            navigate('/modeselect');
+          }
+        }, 1000);
+      } else {
+        setMessage(data?.message || '❌ Invalid email or password.');
+      }
+    } catch (error) {
+      console.error('❌ Network error:', error);
+      setMessage('❌ Network error. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="login">
       <div className="login-container">
-        <h2 className="welcome-message">Welcome back Alex 👋</h2>
+        <h2 className="welcome-message">Welcome back 👋</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="email">Email address</label>
@@ -81,15 +82,19 @@ const LoginSignup = () => {
             <label htmlFor="password">Enter password</label>
             <div className="password-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Enter password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button type="button" className="show-password">
-                <FaEyeSlash />
+              <button
+                type="button"
+                className="show-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
           </div>

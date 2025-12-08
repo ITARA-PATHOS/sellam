@@ -1,0 +1,22 @@
+.location-wrapper {
+  position: relative;
+}
+
+.sublocations-dropdown {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  min-width: 220px;
+  max-height: 200px;       /* limits height */
+  overflow-y: auto;        /* enables vertical scrollbar */
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: none;           /* hidden by default */
+  z-index: 30;
+}
+
+.location-wrapper:hover .sublocations-dropdown {
+  display: block;          /* shows dropdown on hover */
+}

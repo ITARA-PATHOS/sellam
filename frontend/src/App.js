@@ -53,6 +53,7 @@ import SellerNotificationPage from './Pages/SellerNotificationPage';
 import AdminDashboard from './Pages/AdminDashboard';
 import SellerOrders from './Pages/SellerOrders';
 import AdminLogin from './Pages/AdminLogin';
+import AdminMode from './Pages/AdminMode';
 
 
 
@@ -72,6 +73,7 @@ function App() {
         <Route path='/password-reset' element={<CreateNewPassword/>}/>
         <Route path='/page-loading' element={<Onboard/>}/>
         <Route path='/modeselect' element={<Mode/>}/>
+                <Route path='/adminmode' element={<AdminMode/>}/>
         <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
         <Route path='/admin-login' element={<AdminLogin/>}/>
         <Route path='/home' element={<HomePage/>}/>

@@ -6,7 +6,7 @@ import { getAccessToken } from '../utils/token';
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-function Mode() {
+function AdminMode() {
   const [selectedMode, setSelectedMode] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -59,35 +59,35 @@ function Mode() {
           <Link to="/login"><FaArrowLeft className="back-arrow" /></Link>
         </div>
         <h2>Choose Mode</h2>
-        <p>You can switch mode later in your dashboard</p>
-
-        {/* Buyer & Seller Modes */}
-        <div className="mode-options">
-          {['buyer', 'seller'].map((mode) => (
-            <div
-              key={mode}
-              className={`mode-option ${selectedMode === mode ? 'active' : ''}`}
-              onClick={() => !loading && handleModeChange(mode)}
-              style={{ cursor: loading ? 'not-allowed' : 'pointer', opacity: loading && selectedMode !== mode ? 0.6 : 1 }}
-            >
-              <div className={`header-container ${selectedMode === mode ? 'active' : ''}`}>
-                <h3>{mode.charAt(0).toUpperCase() + mode.slice(1)} Mode</h3>
-              </div>
-              <hr className={`hover-line ${selectedMode === mode ? 'active' : ''}`} />
-              <p>{mode === 'buyer'
-                ? 'Browse and purchase unique second-hand items and local artisan crafts.'
-                : 'List your items effortlessly and connect with buyers in your area.'}
-              </p>
-              {selectedMode === mode ? (
-                <div className="check-mark">✔️</div>
-              ) : (
-                <div className="radio-button">⚪</div>
-              )}
-            </div>
-          ))}
-        </div>
+        <p>Dear Admin, Kindly click to proceed!</p>
 
        
+
+        {/* Admin Section */}
+        <div style={{ marginTop: '30px', textAlign: 'center' }}>
+         
+          <div
+            className={`mode-option ${selectedMode === 'admin' ? 'active' : ''}`}
+            onClick={() => !loading && handleModeChange('admin')}
+            style={{ 
+              cursor: loading ? 'not-allowed' : 'pointer',
+              maxWidth: '350px',
+              margin: '20px auto',
+              opacity: loading && selectedMode !== 'admin' ? 0.6 : 1
+            }}
+          >
+            <div className={`header-container ${selectedMode === 'admin' ? 'active' : ''}`}>
+              <h3>Admin Mode</h3>
+            </div>
+            <hr className={`hover-line ${selectedMode === 'admin' ? 'active' : ''}`} />
+            <p>Manage app, sellers, and buyers process efficiently at Sellam platform.</p>
+            {selectedMode === 'admin' ? (
+              <div className="check-mark">✔️</div>
+            ) : (
+              <div className="radio-button">⚪</div>
+            )}
+          </div>
+        </div>
 
         {loading && <p style={{ color: '#280769', marginTop: '10px' }}>Saving...</p>}
       </div>
@@ -95,4 +95,4 @@ function Mode() {
   );
 }
 
-export default Mode;
+export default AdminMode;
