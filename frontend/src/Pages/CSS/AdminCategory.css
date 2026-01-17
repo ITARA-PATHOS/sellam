@@ -265,7 +265,7 @@
 /* ---------- MODAL STYLING (NEW) ---------- */
 /* Overlay covers the entire screen with slight dark transparency */
 .modal-overlay4, .modal-overlay5 {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -276,16 +276,16 @@
   justify-content: center;
   z-index: 999;
   padding: 10px;
-  overflow-y: auto;
 }
 
 /* Modal box */
 .modal-content4 {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 20px;
   max-width: 500px;
   max-height: 500px;
   width: 100%;
+  overflow-y: auto;
   padding: 30px 25px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   display: flex;
