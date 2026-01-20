@@ -44,6 +44,10 @@ void locationDetails
 
 const [showDropdown, setShowDropdown] = useState(false);
 
+const stateLocations = locations.filter(
+    (loc) => loc.parent_id === null
+  );
+
   const [products, setProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [popularPage, setPopularPage] = useState(1);
@@ -470,10 +474,10 @@ const toggleRecentlyViewed = () => {
 
 {showDropdown && (
   <ul className="dropdown-options">
-    {locations.map((loc) => (
+     {stateLocations.map((loc) => (
       <li
         key={loc.id}
-        onClick={() => handleLocationSelect(loc)} // ✅ Calls full handler
+        onClick={() => handleLocationSelect(loc)}
       >
         {loc.name}
       </li>
